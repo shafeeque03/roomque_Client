@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.wrapper{
+    @apply max-w-[1368px] px-8 mx-auto;
+  }
+  
+  .head_text{
+    @apply text-[40px] text-black font-bold uppercase leading-[146%] 
+  }
