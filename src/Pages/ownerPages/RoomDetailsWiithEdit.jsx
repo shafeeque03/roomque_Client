@@ -11,6 +11,8 @@ import { myRoom } from "../../api/ownerApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import OwnerFooter from "../../Components/OwnerComponents/OwnerFooter";
+import Spinner from "../../Components/common/Spinner";
+import { Autocomplete } from "@react-google-maps/api";
 
 const RoomDetailsWithEdit = () => {
   const [room, setRoom] = useState({});
@@ -32,12 +34,12 @@ const RoomDetailsWithEdit = () => {
         toast.error(err.response?.data?.message);
       });
   }, [roomId]);
-  console.log(room, "this is  roomm");
 
   const navigate = useNavigate();
 
   const onSubmit = async () => {
     try {
+      console.log("ioioio")
       setLoading(true);
       setSave("Saving...");
       const res = await editRoom({
@@ -68,7 +70,9 @@ const RoomDetailsWithEdit = () => {
         location: room.location,
         rent: room.rent,
         acType: room.acType,
-        roomType: room.roomType
+        roomType: room.roomType,
+        model: room.model
+
       },
       validationSchema: roomValidation,
       onSubmit,
@@ -122,7 +126,7 @@ const RoomDetailsWithEdit = () => {
   return (
     <div>
       <OwnerNavbar />
-      <section class="overflow-hidden bg-slate-50 min-h-screen py-11 font-poppins dark:bg-black-800">
+      <section class="overflow-hidden bg-slate-50 min-h-screen py-11 font-poppins dark:bg-black-800 fade-ef">
         <div class="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
           <div class="m-auto">
             {room.roomImages ? (
@@ -183,6 +187,34 @@ const RoomDetailsWithEdit = () => {
                             <option value="" label="Select Room Type" />
                             <option value="hotel" label="Hotel" />
                             <option value="flat" label="Flat" />
+                            {/* Add more options as needed */}
+                          </select>
+                          {touched.roomType && errors.roomType && (
+                            <div className="text-red-500 text-sm mt-1">
+                              {errors.roomType}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="mb-4">
+                          <label
+                            for="email"
+                            class="block mb-2 mt-5 text-sm font-medium text-gray-400"
+                          >
+                            Model
+                          </label>
+                          <select
+                            id="roomType"
+                            name="roomType"
+                            value={values.model}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="bg-red-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-slate-100 dark:border-gray-300 dark:placeholder-gray-700 dark:text-slate-500 dark:focus:ring-gray-500 dark:focus:border-blue-500"
+                          >
+                            <option value="" label="Select Room Model" />
+                            <option value="Normal" label="Normal" />
+                            <option value="Medium" label="Medium" />
+                            <option value="Luxury" label="Luxury" />
                             {/* Add more options as needed */}
                           </select>
                           {touched.roomType && errors.roomType && (
@@ -367,9 +399,9 @@ const RoomDetailsWithEdit = () => {
                 </div>
               </>
             ) : (
-              <>
-                <p>Loading.....</p>
-              </>
+              <div class='m-auto text-center flex justify-center'>
+                <Spinner/>
+              </div>
             )}
           </div>
         </div>

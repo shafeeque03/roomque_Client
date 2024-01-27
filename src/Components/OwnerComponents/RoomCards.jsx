@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { deleteRoom } from "../../api/ownerApi";
 import { roomBlock } from "../../api/ownerApi";
 import { toast } from "react-toastify";
+import Spinner from "../common/Spinner";
 const RoomCards = ({ value }) => {
   const [loading, setLoading] = useState(false);
   const [isAvailable, setIsAvailable] = useState(value.is_blocked);
@@ -13,9 +14,6 @@ const RoomCards = ({ value }) => {
       if (res.status === 200) {
         setLoading(false);
         setIsAvailable(!status);
-        // Assuming you have a state to manage the availability, update it here
-        // For example, if you have a state like `setIsAvailable`, use it like this:
-        // setIsAvailable(!status);
       }
     } catch (error) {
       toast.error(error.response?.data?.message);
@@ -24,7 +22,10 @@ const RoomCards = ({ value }) => {
   };
   return (
     <div>
-      <div className="relative flex max-w-[18rem] max-h-[22rem] flex-col overflow-hidden rounded-xl bg-slate-100 bg-clip-border text-gray-700 shadow-md m-3 hover:scale-110 cursor-pointer mb-7">
+      {loading ? (<>
+      <Spinner/>
+      </>):(<>
+        <div className="relative flex max-w-[18rem] max-h-[22rem] flex-col overflow-hidden rounded-xl bg-slate-100 bg-clip-border text-gray-700 shadow-md m-3 hover:scale-110 cursor-pointer mb-7">
         <Link to="/owner/details" state={value}>
           <div className="relative m-0 overflow-hidden text-gray-700 bg-transparent rounded-none shadow-none bg-clip-border h-48">
             <img src={value.roomImages[0]} alt="ui/ux review check" />
@@ -40,7 +41,7 @@ const RoomCards = ({ value }) => {
           
           </div>
           <p className="text-sm">{value.acType} Room </p>
-          <p className="text-sm">{value.about}</p>
+          <p className="text-sm">{value.model}</p>
           <p className="text-sm">Rent - {value.rent}/m</p>
         </div>
         <div className="flex items-center ps-3 pb-3 justify-between me-5">
@@ -88,6 +89,8 @@ const RoomCards = ({ value }) => {
           
         </div>
       </div>
+      </>) }
+      
     </div>
   );
 };

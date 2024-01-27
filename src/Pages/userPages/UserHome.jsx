@@ -5,6 +5,12 @@ import { getRooms } from "../../api/userApi";
 import Pagination from "../../Components/common/Pagination";
 import { useSelector } from "react-redux";
 import DummyHome from "../../Components/UserComponents/DummyHome";
+import { Autocomplete } from "@react-google-maps/api";
+import useGoogleMapApi from "../../Components/customHook/useGoogleMapApi";
+import { searchLocation } from "../../api/userApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const UserHome = () => {
   const [rooms, setRooms] = useState([]);
@@ -40,16 +46,23 @@ const UserHome = () => {
     };
   };
 
+  const searchRoom = async()=>{
+    try {
+      const res = await searchLocation(searchInput)
+      if(res.status==200){
+        setRooms( res.data.fRooms)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   const handleInputChange = debounce((value) => {
     setSearchInput(value);
     setCurrentPage(1);
-  }, 500);
+  }, 100);
 
-  const filteredData = !searchInput
-    ? rooms
-    : rooms.filter((room) =>
-        room.location.toLowerCase().includes(searchInput.toLowerCase())
-      );
+  const filteredData = rooms
 
   const lastIndex = currentPage * dataPerPage;
   const firstIndex = lastIndex - dataPerPage;
@@ -62,18 +75,19 @@ const UserHome = () => {
       {user ? (
         <>
           <UserNavbar />
-          <div className="w-full relative h-full pt-2 bg-green-50">
+          <div className="w-full flex justify-end pe-8 h-full pt-2 bg-green-50">
             <input
-              type="text"
+              type="search"
               id="voice-search"
-              className="bg-slate-200 absolute me-10 mt-2 top-0 right-0 red-300 text-gray-900 text-sm rounded-3xl  focus:red-500 block w-42 ps-5 p-2.5  dark:bg-gray-50 border-2 dark:red-600 dark:placeholder-gray-400 dark:text-slate-700 dark:focus:ring-red-500 dark:focus:red-500"
+              className="bg-slate-200 me-5 mt-2 top-0 right-0 red-300 text-gray-900 text-sm rounded-3xl  focus:red-500 block w-42 ps-5 p-2.5  dark:bg-gray-50 border-2 dark:red-600 dark:placeholder-gray-400 dark:text-slate-700 dark:focus:ring-red-500 dark:focus:red-500"
               placeholder="Search location"
               required
               value={searchInput}
               onChange={(e) => handleInputChange(e.target.value)}
             />
+            <FontAwesomeIcon icon={faSearch} className="w-6 h-9 mt-3 cursor-pointer me-2" size="lg" onClick={()=>searchRoom()} style={{color: "#087326",}} />
           </div>
-
+        
           <div className="flex flex-wrap pt-10 justify-evenly bg-green-50 min-h-screen scroll-smooth focus:scroll-auto">
             {usersInSinglePage.length > 0 ? (
               usersInSinglePage.map((data) => (
@@ -83,16 +97,17 @@ const UserHome = () => {
               <tr>
                 <td
                   colSpan="4"
-                  className="px-6 py-4 text-center text-gray-900 dark:text-white"
+                  className="px-6 py-4 text-center text-xl text-gray-600 "
                 >
-                  No users
+                  No Rooms Available
                 </td>
               </tr>
             )}
           </div>
+          
           <div className="bg-green-100 p-3 m-ato text-center">
             <div className="m-auto">
-              {usersInSinglePage.length > 1 && (
+              {usersInSinglePage.length > 0 && (
                 <Pagination
                   numbers={numbers}
                   currentPage={currentPage}

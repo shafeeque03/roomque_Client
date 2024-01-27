@@ -59,17 +59,17 @@ const UserLogin = () => {
                 type="email"
                 id="mb"
                 name="email"
-                class="input-field"
+                class="input-field text-slate-600"
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 required
               />
 
-              <label for="user" class="label">
+              <label for="user" class="label text-slate-400">
                 Email
               </label>
-              <i class="bx bx-user icon"></i>
+              <i class="bx bx-user icon text-slate-800"></i>
               
             </div>
             <div class="input-box">
@@ -77,28 +77,28 @@ const UserLogin = () => {
                 type="password"
                 id="password"
                 name="password"
-                class="input-field"
+                class="input-field text-slate-600"
                 autocomplete="off"
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label for="pass" class="label">
+              <label for="pass" class="label text-slate-400">
                 Password
               </label>
-              <i class="bx bx-lock-alt icon" id="show-password"></i>
+              <i class="bx bx-lock-alt icon text-slate-800" id="show-password"></i>
             </div>
             <div class="remember-forgot">
-              <div class="forgot">
+              <div class="forgot text-slate-400">
               <Link to="/forgotPassword">Forgot Password</Link>
               </div>
             </div>
 
             <div class="input-box">
-              <input type="submit" class="input-submit" value="Login" />
+              <input type="submit" class="input-submit text-slate-400" value="Login" />
             </div>
             <div class="register">
-              <span class='hover:underline'>
+              <span class='hover:underline text-slate-400 cursor-pointer'>
                 Don't have an account? <Link to="/signup">Signup</Link>
               </span>
             </div>

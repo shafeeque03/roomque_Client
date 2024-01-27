@@ -1,30 +1,29 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { editProfile } from "../../api/userApi";
+import { OwnereditProfile } from "../../api/ownerApi";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
-import { userLogin } from "../../Redux/slices/UserSlice";
+import { ownerLogin } from "../../Redux/slices/OwnerSlice";
 
-const Profile = () => {
-  const { user } = useSelector((state) => state.userReducer);
+const OwnerProfile = () => {
+  const { owner } = useSelector((state) => state.ownerReducer);
   const dispatch = useDispatch()
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const userId = user._id
+  const ownerId = owner._id
   const onSubmit = async () => {
     try {
       setLoading(true)
-      const res = await editProfile({ ...values, userId});
+      const res = await OwnereditProfile({ ...values, ownerId});
       if (res?.status == 200) {
         setLoading(false)
         setIsEdit(false)
-        const { user } = res.data;
-        console.log(user,"this is user")
+        const { owner } = res.data;
         dispatch(
-          userLogin({
-            user: user,
+            ownerLogin({
+            owner: owner,
           })
         );
         toast.success(res?.data?.message);
@@ -39,9 +38,9 @@ const Profile = () => {
   const { values, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
-        name: user.name,
-        email: user.email,
-        number: user.number,
+        name: owner.name,
+        email: owner.email,
+        number: owner.number,
       },
       onSubmit,
       enableReinitialize: true,
@@ -49,9 +48,9 @@ const Profile = () => {
 
   return (
     <div>
-      <div class="w-full min-h-screen bg-slate-50  p-7 fade-ef">
+      <div class="w-full min-h-screen bg-slate-50  p-7">
         <h2 class="text-center mb-5 text-3xl font-bold text-green-700">
-          USER PROFILE
+        PROFILE
         </h2>
         <div class="container mx-auto">
           <div>
@@ -67,10 +66,10 @@ const Profile = () => {
                 <>
                   <div class="p-4">
                     <h1 class="font-bold text-center text-3xl text-gray-600">
-                      {user.name}
+                      {owner.name}
                     </h1>
                     <p class="text-center text-sm text-gray-400 font-medium">
-                      {user.email}
+                      {owner.email}
                     </p>
                     <p>
                       <span></span>
@@ -135,10 +134,10 @@ const Profile = () => {
                 <>
                   <div class="p-4">
                     <h1 class="font-bold text-center text-3xl text-gray-600">
-                      {user.name}
+                      {owner.name}
                     </h1>
                     <p class="text-center text-sm text-gray-400 font-medium">
-                      {user.email}
+                      {owner.email}
                     </p>
                     <p>
                       <span></span>
@@ -215,4 +214,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default OwnerProfile;

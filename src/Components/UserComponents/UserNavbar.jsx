@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { userLogout } from '../../Redux/slices/UserSlice'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
 
 const UserNavbar = () => {
 
@@ -28,15 +28,16 @@ const UserNavbar = () => {
   return (
     <>
     <nav className="bg-white border-gray-50 dark:bg-green-100 border">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
       <Link to='/' className="flex items-center">
-      <h1 class="text-green-700 text-3xl flex">roomque</h1>
+        <div>
+      <h1 class="text-green-700 text-3xl flex">roomque </h1>
+      <h1 class="text-green-700 text-sm flex ms-1"> One day rooms</h1>
+      </div>
+      
           
         </Link>
         <div className="flex gap-4 items-center md:order-2">
-          <div>
-          <Link to='/wishlist'><FontAwesomeIcon icon={faHeart} className="w-8 h-8 me-2" size="lg" style={{color: "#087326",}} /></Link>
-          </div>
           <div>
           <Link to='/chat'><FontAwesomeIcon icon={faMessage} className="w-7 h-8 mt-1 me-" size="lg" style={{color: "#087326",}} /></Link>
           </div>
@@ -159,14 +160,14 @@ const UserNavbar = () => {
 
             <li>
               <Link
-                to="/about"
+                to="/bookings"
                 className={
-                  location.pathname === "/about"
-                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark-text-blue-500"
+                  location.pathname === "/bookings"
+                    ? "block py-2 pl-3 pr-4 text-white bg-green-700 rounded md:bg-transparent md:text-green-700 md:p-0 md:dark-text-green-500"
                     : "block py-2 pl-3 pr-4 text-gray-900 rounded hover-bg-gray-100 md:hover-bg-transparent md:hover-text-blue-700 md:p-0 dark-text-white md:dark-hover-text-blue-500 dark-hover-bg-gray-700 dark-hover-text-white md:dark-hover-bg-transparent dark-border-gray-700"
                 }
               >
-                About
+                My Bookings
               </Link>
             </li>
 

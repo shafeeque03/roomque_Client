@@ -2,37 +2,49 @@ import React, { useEffect, useState } from "react";
 import { myBookings } from "../../api/userApi";
 import { useSelector } from "react-redux";
 import { cancelBooking } from "../../api/userApi";
+import { toast } from "react-toastify";
+import { Rating } from "@material-tailwind/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { postRatingAndReview } from "../../api/userApi";
+import Spinner from "../common/Spinner";
+import { myRatings } from "../../api/userApi";
+import { date } from "yup";
+
 const Bookings = () => {
   const { user } = useSelector((state) => state.userReducer);
   const userId = user._id;
+  const userName = user.name;
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState({});
-  const [refresh, setRefresh] = useState(false);
+  const [ratings, setRatings] = useState([]);
   const now = new Date();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [review, setReview] = useState("");
+
   useEffect(() => {
     myBookings(userId)
       .then((res) => {
         setBooking(res?.data?.booked);
+        setRatings(res?.data?.ratings);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
         toast.error(err.response?.data?.message);
       });
-  }, []);
+  }, [userId]);
 
   const CancelBooking = async (bookId) => {
     try {
-      console.log(bookId, "got you vroooo");
-      setLoading(true);
       const res = await cancelBooking(bookId);
       if (res.status === 200) {
-        setLoading(false);
-        // Update the state after cancellation
         setBooking((prevBooking) => {
           const updatedBooking = prevBooking.map((book) => {
             if (book._id === bookId) {
-              return { ...book, isCancelled: true };
+              return { ...book, isCancelled: true, status: "Cancelled" };
             }
             return book;
           });
@@ -45,70 +57,230 @@ const Bookings = () => {
     }
   };
 
+  const PostReview = async (roomId) => {
+    try {
+      setLoading(true);
+      const res = await postRatingAndReview(
+        roomId,
+        userName,
+        userId,
+        selectedRating,
+        review
+      );
+      if (res.status == 200) {
+        setRatings((preRating) => {
+          return preRating.map((ratingss) => {
+            if (ratingss.roomId === roomId) {
+              return {
+                ...ratingss,
+                rating: selectedRating,
+                review: review,
+              };
+            }
+            return ratingss;
+          });
+        });
+
+        setSelectedRating(0);
+        setReview("");
+        setShowModal(false);
+        setLoading(false);
+        toast(res.data.message, {
+          className: "bg-slate-700 text-white",
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.response?.data?.message);
+    }
+  };
+
+  const handleRateReviewClick = (book) => {
+    setSelectedBooking(book);
+    ratings.map((value) => {
+      if (value.roomId == book.roomId) {
+        setSelectedRating(value.rating);
+        setReview(value.review);
+      }
+    });
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // console.log(booking,"heyy")
   return (
     <div>
-      <div class="w-full min-h-screen mx-auto p-2 bg-slate-100">
+      <div class="w-full min-h-screen mx-auto p-2 bg-slate-100 fade-ef">
         <p class="text-center text-sm text-slate-500">
-          Cancellation is not possible after 30 minutes of booking
+          Note : Advance is non-refundable if cancelled after 2 days
         </p>
-        {loading ? (
-          <p>Loading</p>
+        {loading && ratings !== null ? (
+          <Spinner />
         ) : (
-          <div class="flex flex-wrap justify-center gap-4">
-            {booking.map((books) => (
-              <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4 h-auto flex flex-col bg-slate-200 rounded-xl mb-2 me-11 ms-11 mt-3">
-                <div class="mb-2">
-                  <img
-                    class="w-full h-52 rounded-tl-xl rounded-tr-xl object-cover"
-                    src={books.room.image}
-                    alt={books.room.roomName}
-                  />
-                </div>
-                <div class="m-2">
-                  <p class="text-sm font-bold mb-1 text-slate-700">
-                    Name: {books.room.roomName}
-                  </p>
-                  <p class="text-sm font-bold mb-1 text-slate-700">
-                    Location: {books.room.location}
-                  </p>
-                  <p class="text-sm font-bold mb-1 text-slate-700">
-                    Room Type: {books.room.roomName}
-                  </p>
-                  <p class="text-sm font-bold mb-1 text-slate-700">
-                    Date : {new Date(books.date).toLocaleDateString("en-GB")}
-                  </p>
-                  {new Date(books.cancelExp) < now ? (
-                    <></>
-                  ) : (
-                    <>
-                      {books.isCancelled ? (
-                        <>
-                          <button
-                            type="button"
-                            class="text-white bg-slate-700 mt-2 w-full hover:bg-slate-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 dark:bg-slate-600 dark:hover:bg-slate-700 focus:outline-none dark:focus:ring-blue-800"
-                          >
-                            Cancelled
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            type="button"
-                            class="text-white bg-red-700 mt-2 w-full hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-1 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick={() => CancelBooking(books._id)}
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      )}
-                    </>
-                  )}
+          <>
+            <div class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-8">
+              <div class="overflow-y-hidden rounded-lg border">
+                <div class="overflow-x-auto">
+                  <table class="w-full">
+                    <thead>
+                      <tr class="bg-green-600 text-left text-xs font-semibold uppercase tracking-widest text-white">
+                        <th class="px-5 py-3">NO</th>
+                        <th class="px-5 py-3">Name</th>
+                        <th class="px-5 py-3">Location</th>
+                        <th class="px-5 py-3">Date</th>
+                        <th class="px-5 py-3">Booked for</th>
+                        <th class="px-5 py-3">Status</th>
+                        <th class="px-5 py-3">Review</th>
+                        <th class="px-5 py-3">Balance</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-500">
+                      {booking.map((book, index) => (
+                        <tr>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">{index + 1}</p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <div class="flex items-center">
+                              <div class="h-20 w-20 flex-shrink-0">
+                                <img
+                                  class="h-full w-full rounded"
+                                  src={book.room.image}
+                                  alt=""
+                                />
+                              </div>
+                              <div class="ml-3">
+                                <p class="whitespace-no-wrap">
+                                  {book.room.roomName}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">
+                              {book.room.location}
+                            </p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">
+                              {new Date(book.date).toLocaleDateString("en-GB")}
+                            </p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">
+                              {new Date(book.BookedFor).toLocaleDateString(
+                                "en-GB"
+                              )}
+                            </p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            {book.status == "Booked" ? (
+                              <>
+                                <span
+                                  class="rounded-full bg-red-200 px-3 py-1 cursor-pointer text-xs font-semibold text-green-900"
+                                  onClick={() => CancelBooking(book._id)}
+                                >
+                                  Cancel
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <span class="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-green-900">
+                                  {book.status}
+                                </span>
+                              </>
+                            )}
+                          </td>
+                          {book.checkedIn ? (
+                            <>
+                              <td className="border-b border-gray-200 bg-white px-1 py-5 text-sm">
+                                <span
+                                  class="rounded-full bg-green-200 px-3 py-1 text-xs cursor-pointer font-semibold text-green-900"
+                                  onClick={() => handleRateReviewClick(book)}
+                                >
+                                  Rate & Review
+                                </span>
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="border-b border-gray-200 bg-white px-1 py-5 text-sm">
+                                <span class="rounded-full bg-gray-200 px-3 py-1 text-xs cursor-pointer font-semibold text-slate-400">
+                                  Rate & Review
+                                </span>
+                              </td>
+                            </>
+                          )}
+                          <td className="border-b border-gray-200 bg-white px-5  text-sm">
+                                <p>
+                                ₹{book.balance}
+                                </p>
+                              </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </>
         )}
       </div>
+
+      {showModal && selectedBooking && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="bg-white p-8 rounded-lg z-10 max-w-md w-full">
+            <h1 className="text-xl font-bold mb-4 text-green-800">
+              Rate & Review for {selectedBooking.room.roomName}
+            </h1>
+
+            <label className="block text-slate-500 text-sm mb-2">Rating</label>
+            <div className="flex items-center gap-4">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={`text-lg px-3 ${
+                    selectedRating >= value
+                      ? "text-yellow-400 "
+                      : "text-gray-400"
+                  }`}
+                  onClick={() => setSelectedRating(value)}
+                >
+                  <FontAwesomeIcon icon={faStar} />
+                </button>
+              ))}
+            </div>
+
+            <label className="block text-slate-500 text-sm mb-2">Review</label>
+            <textarea
+              className="border p-2 mb-4 w-full"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            ></textarea>
+
+            <button
+              type="submit"
+              className="bg-red-500 text-white p-2 rounded"
+              onClick={handleCloseModal}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-green-500 ms-2 text-white p-2 rounded"
+              onClick={() => PostReview(selectedBooking.roomId)}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -7,9 +7,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Autocomplete } from "@react-google-maps/api";
+import useGoogleMapApi from '../customHook/useGoogleMapApi';
 
 const AddRoomForm = () => {
+  const { isLoaded } = useGoogleMapApi();
   const [roomImagesError, setRoomImagesError] = useState(null);
+  const [location, setLocation] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
   const navigate = useNavigate();
   const [roomImage, setRoomImage] = useState([]);
   const { _id } = useSelector((state) => state.ownerReducer.owner);
@@ -17,11 +22,15 @@ const AddRoomForm = () => {
 
   const onSubmit = async () => {
     try {
+      if(!location.trim()){
+        setErrorLocation("Location required")
+        return
+      }
       if (roomImage.length === 0) {
         setRoomImagesError('Please select at least one image for the room.');
         return;
       }
-      const res = await addRoom({ ...values, roomImage, ownerId });
+      const res = await addRoom({ ...values, roomImage, ownerId, location });
       if (res?.status === 201) {
         navigate('/owner', { state: { ownerId: ownerId } });
         toast.success(res?.data?.message);
@@ -45,8 +54,8 @@ const AddRoomForm = () => {
       rent: '',
       phone: '',
       about: '',
-      location: '',
       roomType:'',
+      model: '',
       acType:'',
     },
     validationSchema: roomValidation,
@@ -81,6 +90,28 @@ const AddRoomForm = () => {
       };
     }
   };
+
+  useEffect(() => {
+    if (isLoaded) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        document.getElementById("location"),
+        {
+          componentRestrictions: { country: "IN" },
+          types: ["(cities)"],
+        }
+      );
+
+      
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        const firstName = place.formatted_address.split(",")[0];
+        setLocation(firstName);
+        setErrorLocation("");
+
+      });
+    }
+  }, [isLoaded]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -130,6 +161,32 @@ const AddRoomForm = () => {
               <option value="" label="Select Room Type" />
               <option value="hotel" label="Hotel" />
               <option value="flat" label="Flat" />
+              {/* Add more options as needed */}
+            </select>
+            {touched.roomType && errors.roomType && (
+              <div className="text-red-500 text-sm mt-1">{errors.roomType}</div>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <label
+              htmlFor="roomType"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Model
+            </label>
+            <select
+              id="model"
+              name="model"
+              value={values.model}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="mt-1 p-2 w-full border rounded-md"
+            >
+              <option value="" label="Select Room Type" />
+              <option value="Normal" label="Normal" />
+              <option value="Medium" label="Medium" />
+              <option value="Lexury" label="Lexury" />
               {/* Add more options as needed */}
             </select>
             {touched.roomType && errors.roomType && (
@@ -194,26 +251,25 @@ const AddRoomForm = () => {
               <div className="text-red-500 text-sm mt-1">{errors.about}</div>
             )}
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="roomName"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={values.location}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className="mt-1 p-2 w-full border rounded-md"
-            />
-            {touched.location && errors.location && (
-              <div className="text-red-500 text-sm mt-1">{errors.location}</div>
-            )}
-          </div>
+          <div className="mb-6">
+                {isLoaded && (
+                  <Autocomplete >
+                    <input
+                      type="search"
+                      id="location"
+                      name="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="mt-1 p-2 w-full border rounded-md"
+                      required=""
+                    />
+                  </Autocomplete>
+                )}
+
+                {errorLocation && (
+                  <div className="text-red-500 text-sm">{errorLocation}</div>
+                )}
+              </div>
           <div class='flex'>
 
           <div className="mb-4 me-1">

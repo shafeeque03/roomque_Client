@@ -16,6 +16,6 @@ export const roomValidation = yup.object().shape({
   about: yup.string().max(25).test("notOnlySpaces", "About room is required", (value) => {
     return value.trim() !== "";
   }).required("about the room is required"),
-  location: yup.string().required("location of the room is required"),
-  roomType: yup.string().required("Room type required")
+  roomType: yup.string().required("Room type required"),
+  model: yup.string().required("Room model required")
 });

@@ -9,7 +9,7 @@ const AdminDashboard = () => {
   return (
     <div>
         <AdminNavbar/>
-        <div class="mx-auto flex mt-5 bg-gray-200">
+        <div class="mx-auto flex bg-gray-200">
         <AdminSidebar />
         <div className='flex flex-wrap justify-evenly bg-slate-50'>
         <DashboardCard value={users}/>

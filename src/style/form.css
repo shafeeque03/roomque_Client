@@ -10,13 +10,7 @@
     --black-color: #000000;
 }
 
-body {
-    background-image: url("/bgphoto.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
+
 
 .wrapper {
     min-width: 100%;
@@ -24,7 +18,12 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: rgba(0, 0, 0, 0.2);
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    background-image: url("/blur.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 .login-box {
     position: relative;
@@ -51,7 +50,7 @@ body {
 }
 .login-header span {
     font-size: 30px;
-    color: var(--black-color);
+    color: #ffffff;
 }
 .login-header::before {
     content: "";
@@ -165,6 +164,10 @@ body {
 
 .icon.blinking {
     animation: blink 1s infinite;
+}
+
+.text-green{
+    color: #0da100;
 }
 
 
@@ -339,6 +342,33 @@ body {
     font-size: 90px;
      /* Adjust the text color as needed */
 }
+
+.toast-messagee{
+    width: 150px;
+    height: 40px;
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+/* RoomCard.css */
+.fade-ef {
+    opacity: 0;
+    animation: fadeIn 0.9s ease-in-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  
 
 
 

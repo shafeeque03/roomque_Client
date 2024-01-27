@@ -13,6 +13,7 @@ import LazyLoadedRoomDetails from "../Pages/userPages/LazyLoadedRoomDetails";
 import DummyHome from "../Components/UserComponents/DummyHome";
 import UserProfile from "../Pages/userPages/UserProfile";
 import { MyBookings } from "../Pages/userPages/MyBookings";
+import PaymentSuccess from "../Pages/userPages/PaymentSuccess";
 
 const UserRoute = ()=>{
     return(
@@ -29,6 +30,7 @@ const UserRoute = ()=>{
             <Route path="/fOtpUser" element={<UserPublic><FOtpUser/></UserPublic>}/>
             <Route path="/contact" element={<UserPublic><DummyHome/></UserPublic>}/>
             <Route path="/newPassword" element={<UserPublic><SetNewPassword/></UserPublic>}/>
+            <Route path="/paymentSuccess/:roomId" element={<UserProtect><PaymentSuccess/></UserProtect>}/>
 
 
 
