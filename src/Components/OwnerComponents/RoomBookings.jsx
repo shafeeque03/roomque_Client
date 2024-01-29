@@ -4,7 +4,8 @@ import { bookingss } from "../../api/ownerApi";
 import { getRating } from "../../api/userApi";
 import { checkedIn } from "../../api/ownerApi";
 import { toast } from "react-toastify";
-const RoomBookings = () => {
+const 
+RoomBookings = () => {
   const { owner } = useSelector((state) => state.ownerReducer);
   const ownerId = owner._id;
   const now = new Date();
@@ -85,7 +86,7 @@ const RoomBookings = () => {
 
   return (
     <div>
-      <div class="w-full min-h-screen mx-auto p-2 bg-slate-100">
+      <div class="w-full min-h-screen mx-auto fade-ef p-2 bg-slate-100">
         <p class=" ms-4 mb-4 mt-4 text-xl text-slate-500">All Bookings</p>
         {loading ? (
           <p>Loading</p>
@@ -98,11 +99,11 @@ const RoomBookings = () => {
                     <tr class="bg-blue-600 text-left text-xs font-semibold uppercase tracking-widest text-white">
                       <th class="px-5 py-3">NO</th>
                       <th class="px-5 py-3">Name</th>
-                      <th class="px-5 py-3">Location</th>
+                      <th class="px-5 py-3">User</th>
                       <th class="px-5 py-3">Date</th>
                       <th class="px-5 py-3">Booked for</th>
                       <th class="px-5 py-3">Status</th>
-                      <th class="px-5 py-3"></th>
+                      <th class="px-5 py-3">Review</th>
                     </tr>
                   </thead>
                   <tbody class="text-gray-500">
@@ -128,7 +129,7 @@ const RoomBookings = () => {
                           </div>
                         </td>
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <p class="whitespace-no-wrap">{book.room.location}</p>
+                          <p class="whitespace-no-wrap">{book.userName}</p>
                         </td>
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                           <p class="whitespace-no-wrap">

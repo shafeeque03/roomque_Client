@@ -97,6 +97,11 @@ export const checkRoomAvailable = async(roomId, date)=>{
     return data
 }
 
+export const filteredRooms = async(selectedFilters,rentFilter)=>{
+    console.log("calling here apiiiii")
+    const data = userAxiosInstance.post('/applyFilter',{selectedFilters,rentFilter})
+    return data
+}
 
 
   

@@ -48,7 +48,7 @@ const OwnerProfile = () => {
 
   return (
     <div>
-      <div class="w-full min-h-screen bg-slate-50  p-7">
+      <div class="w-full min-h-screen fade-ef bg-slate-50  p-7">
         <h2 class="text-center mb-5 text-3xl font-bold text-green-700">
         PROFILE
         </h2>

@@ -34,3 +34,8 @@ export const roomBlock = async (roomId, status) => {
   const data = await adminAxiosInstance.patch("/blockRoom", { roomId, status });
   return data;
 };
+
+export const bookingList = async()=>{
+  const data = await adminAxiosInstance.get("/bookings")
+  return data
+}

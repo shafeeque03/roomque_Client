@@ -220,7 +220,7 @@ const AdminSidebar = () => {
                                     <path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
                                 </svg>
 
-                                <span className="flex-1 ml-3 text-green">
+                                <span className="ml-3">
                                     Total Users
                                 </span>
                             </Link>

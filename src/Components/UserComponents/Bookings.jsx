@@ -111,7 +111,25 @@ const Bookings = () => {
     setShowModal(false);
   };
 
-  // console.log(booking,"heyy")
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancelBookingId, setCancelBookingId] = useState(null);
+
+  const handleCancelBookingClick = (bookId) => {
+    setCancelBookingId(bookId);
+    setShowCancelModal(true);
+  };
+
+  const handleCloseCancelModal = () => {
+    setCancelBookingId(null);
+    setShowCancelModal(false);
+  };
+
+  const handleConfirmCancelBooking = () => {
+    if (cancelBookingId) {
+      CancelBooking(cancelBookingId);
+    }
+    handleCloseCancelModal();
+  };
   return (
     <div>
       <div class="w-full min-h-screen mx-auto p-2 bg-slate-100 fade-ef">
@@ -182,7 +200,7 @@ const Bookings = () => {
                               <>
                                 <span
                                   class="rounded-full bg-red-200 px-3 py-1 cursor-pointer text-xs font-semibold text-green-900"
-                                  onClick={() => CancelBooking(book._id)}
+                                  onClick={() => handleCancelBookingClick(book._id)}
                                 >
                                   Cancel
                                 </span>
@@ -277,6 +295,32 @@ const Bookings = () => {
               onClick={() => PostReview(selectedBooking.roomId)}
             >
               Submit
+            </button>
+          </div>
+        </div>
+      )}
+
+{showCancelModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="bg-white p-8 rounded-lg z-10 max-w-md w-full">
+            <h1 className="text-xl font-bold mb-6 text-red-500">
+              Confirm Cancellation
+            </h1>
+            <p className="mb-4 text-slate-600 font-bold">Are you sure you want to cancel this booking?</p>
+            <button
+              type="button"
+              className="bg-red-500 px-5 text-white p-2 rounded"
+              onClick={handleCloseCancelModal}
+            >
+              No
+            </button>
+            <button
+              type="button"
+              className="bg-green-500 px-5 ms-2 text-white p-2 rounded"
+              onClick={handleConfirmCancelBooking}
+            >
+              Yes
             </button>
           </div>
         </div>

@@ -114,7 +114,7 @@ const AddRoomForm = () => {
   }, [isLoaded]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center fade-ef min-h-screen bg-gray-100">
       <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 p-8 bg-white rounded-lg shadow-lg mt-3 mb-3">
         <h1 className="text-2xl font-semibold mb-6 text-gray-800">
           Add Room Form
