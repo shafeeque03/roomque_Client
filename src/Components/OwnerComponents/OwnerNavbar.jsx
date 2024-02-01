@@ -28,15 +28,15 @@ const OwnerNavbar = () => {
   }
   return (
     <>
-    <nav className="bg-white border-gray-50 dark:bg-gray border">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-blue-700 border-gray-50">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-around mx-auto p-4">
       <Link to='/owner' className="flex items-center">
-      <h1 class="text-blue-800 text-3xl flex">roomque <p class="text-sm mt-5 ml-1">Owner</p></h1>
+      <h1 class="text-blue-50 text-3xl flex">roomque <p class="text-sm mt-5 ml-1">Owner</p></h1>
           
         </Link>
-        <div className="flex gap-4 items-center md:order-2">
+        <div className="flex gap-12 items-center md:order-2">
           <div>
-          <Link to='/owner/chat'><FontAwesomeIcon icon={faCommentAlt} className="w-7 h-8 mt-1" size="lg" style={{color: "#2736a8",}} /></Link>
+          <Link to='/owner/chat'><FontAwesomeIcon icon={faCommentAlt} className="w-7 h-8 mt-1" size="lg" style={{color: "#ffff",}} /></Link>
           </div>
           <div className="relative" onClick={toggleDropdown}>
             <button
@@ -124,13 +124,13 @@ const OwnerNavbar = () => {
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark-bg-gray-900 dark-border-gray-700">
+          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-blue-700 dark:bg-gray-900 md:dark-bg-gray-900 dark-border-gray-700">
             <li>
               <Link
                 to="/owner"
                 className={
                   location.pathname === "/owner"
-                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark-text-blue-500"
+                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-100 md:p-0 md:dark-text-blue-100"
                     : "block py-2 pl-3 pr-4 text-gray-900 rounded hover-bg-gray-100 md:hover-bg-transparent md:hover-text-blue-700 md:p-0 dark-text-white md:dark-hover-text-blue-500 dark-hover-bg-gray-700 dark-hover-text-white md:dark-hover-bg-transparent dark-border-gray-700"
                 }
               >
@@ -140,29 +140,31 @@ const OwnerNavbar = () => {
 
             <li>
               <Link
-                to="/owner/contact"
+                to="/owner/dashboard"
                 className={
-                  location.pathname === "/owner/contact"
-                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark-text-blue-500"
+                  location.pathname === "/owner/dashboard"
+                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-100 md:p-0 md:dark-text-blue-100"
                     : "block py-2 pl-3 pr-4 text-gray-900 rounded hover-bg-gray-100 md:hover-bg-transparent md:hover-text-blue-700 md:p-0 dark-text-white md:dark-hover-text-blue-500 dark-hover-bg-gray-700 dark-hover-text-white md:dark-hover-bg-transparent dark-border-gray-700"
                 }
               >
-                Contact
+                Dashboard
               </Link>
             </li>
+
             <li>
               <Link
-                to="/owner/about"
+                to="/owner/bookings"
                 className={
-                  location.pathname === "/owner/about"
-                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark-text-blue-500"
+                  location.pathname === "/owner/bookings"
+                    ? "block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-100 md:p-0 md:dark-text-blue-100"
                     : "block py-2 pl-3 pr-4 text-gray-900 rounded hover-bg-gray-100 md:hover-bg-transparent md:hover-text-blue-700 md:p-0 dark-text-white md:dark-hover-text-blue-500 dark-hover-bg-gray-700 dark-hover-text-white md:dark-hover-bg-transparent dark-border-gray-700"
                 }
               >
-                About
+                My Bookings
               </Link>
             </li>
-            {/* Add more header items here */}
+            
+
           </ul>
         </div>
       </div>
@@ -187,22 +189,17 @@ const OwnerNavbar = () => {
                 Dashboard
               </Link>
             </li>
+
             <li>
-              <a
-                href="#"
+              <Link
+                to='/owner/bookings'
                 className="block px-4 py-2 text-gray-900 hover-bg-gray-100 md:hover-bg-transparent"
               >
-                Contact
-              </a>
+                My Bookings
+              </Link>
             </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-gray-900 hover-bg-gray-100 md:hover-bg-transparent"
-              >
-                About
-              </a>
-            </li>
+           
+            
             
           </ul>
         </div>

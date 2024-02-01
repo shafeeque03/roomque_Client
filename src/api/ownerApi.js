@@ -91,3 +91,14 @@ export const checkedIn = async (bookId) => {
   const data = ownerAxiosInstance.post("/checkedIn", { bookId });
   return data;
 };
+
+export const getCategories = async(value)=>{
+  const data = ownerAxiosInstance.get(`getAllCats/${value}`)
+  return data
+}
+
+export const myDashData = async(ownerId)=>{
+  console.log(ownerId,"ivda kitti")
+  const data = ownerAxiosInstance.get(`dashData/${ownerId}`)
+  return data
+}

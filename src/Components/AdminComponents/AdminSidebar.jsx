@@ -6,7 +6,7 @@ const AdminSidebar = () => {
     const location = useLocation();
     return (
         <>
-            <div className="drawer flex justify-end  md:hidden z-10 bg-white-900">
+            <div className="drawer flex justify-end  md:hidden z-10 bg-white">
                 <input
                     id="my-drawer"
                     type="checkbox"
@@ -34,7 +34,7 @@ const AdminSidebar = () => {
                                         to="/admin/dashboard"
                                         className={
                                             location.pathname === "/admin/dashboard"
-                                                ? "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                                ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                                 : "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         }
                                     >
@@ -59,7 +59,7 @@ const AdminSidebar = () => {
                                         to="/admin/userList"
                                         className={
                                             location.pathname === "/admin/userList"
-                                                ? "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                                ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                                 : "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         }
                                     >
@@ -88,7 +88,7 @@ const AdminSidebar = () => {
                                         to="/admin/ownerList"
                                         className={
                                             location.pathname === "/admin/userList"
-                                                ? "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                                ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                                 : "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         }
                                     >
@@ -116,7 +116,7 @@ const AdminSidebar = () => {
                                         to="/admin/carList"
                                         className={
                                             location.pathname === "/admin/carList"
-                                                ? "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                                ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                                 : "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         }
                                     >
@@ -140,7 +140,7 @@ const AdminSidebar = () => {
                                         to="/admin/bookings"
                                         className={
                                             location.pathname === "/admin/bookings"
-                                                ? "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                                ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                                 : "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-700 group"
                                         }
                                     >
@@ -168,7 +168,7 @@ const AdminSidebar = () => {
                     </div>
                 </div>
             </div>
-            <div className=" w-[300px] h-screen hidden shadow-lg md:flex rounded-md bg-gray-100 text-gray-900">
+            <div className=" w-[300px] h-screen hidden shadow-lg md:flex bg-white text-gray-900">
                 <div className="p-4 w-full">
                     <ul className="space-y-2 font-medium">
                         <li>
@@ -176,7 +176,7 @@ const AdminSidebar = () => {
                                 to="/admin/dashboard"
                                 className={
                                     location.pathname === "/admin/dashboard"
-                                        ? "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
+                                        ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                         : "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                 }
                             >
@@ -201,7 +201,7 @@ const AdminSidebar = () => {
                                 to="/admin/userList"
                                 className={
                                     location.pathname === "/admin/userList"
-                                        ? "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
+                                        ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                         : "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                 }
                             >
@@ -230,7 +230,7 @@ const AdminSidebar = () => {
                                 to="/admin/ownerList"
                                 className={
                                     location.pathname === "/admin/ownerList"
-                                        ? "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
+                                        ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                         : "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                 }
                             >
@@ -258,7 +258,7 @@ const AdminSidebar = () => {
                                 to="/admin/roomList"
                                 className={
                                     location.pathname === "/admin/roomList"
-                                        ? "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
+                                        ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                         : "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                 }
                             >
@@ -289,7 +289,7 @@ const AdminSidebar = () => {
                                 to="/admin/bookings"
                                 className={
                                     location.pathname === "/admin/bookings"
-                                        ? "flex items-center p-2 text-gray-900 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
+                                        ? "flex items-center p-2 text-gray-800 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                         : "flex items-center p-2 text-gray-500 rounded-lg dark:text-grayhover:bg-gray-100 dark:hover:bg-gray-200 group"
                                 }
                             >

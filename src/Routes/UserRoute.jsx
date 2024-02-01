@@ -14,6 +14,7 @@ import DummyHome from "../Components/UserComponents/DummyHome";
 import UserProfile from "../Pages/userPages/UserProfile";
 import { MyBookings } from "../Pages/userPages/MyBookings";
 import PaymentSuccess from "../Pages/userPages/PaymentSuccess";
+import ChatPage from "../Pages/userPages/ChatPage";
 
 const UserRoute = ()=>{
     return(
@@ -31,6 +32,7 @@ const UserRoute = ()=>{
             <Route path="/contact" element={<UserPublic><DummyHome/></UserPublic>}/>
             <Route path="/newPassword" element={<UserPublic><SetNewPassword/></UserPublic>}/>
             <Route path="/paymentSuccess/:roomId" element={<UserProtect><PaymentSuccess/></UserProtect>}/>
+            <Route path="/chat" element={<UserProtect><ChatPage/></UserProtect>}/>
 
 
 

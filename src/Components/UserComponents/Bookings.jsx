@@ -5,11 +5,12 @@ import { cancelBooking } from "../../api/userApi";
 import { toast } from "react-toastify";
 import { Rating } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar, faMessage } from "@fortawesome/free-solid-svg-icons";
 import { postRatingAndReview } from "../../api/userApi";
 import Spinner from "../common/Spinner";
 import { myRatings } from "../../api/userApi";
 import { date } from "yup";
+import { Link } from "react-router-dom";
 
 const Bookings = () => {
   const { user } = useSelector((state) => state.userReducer);
@@ -154,6 +155,7 @@ const Bookings = () => {
                         <th class="px-5 py-3">Status</th>
                         <th class="px-5 py-3">Review</th>
                         <th class="px-5 py-3">Balance</th>
+                        <th class="px-5 py-3">Chat</th>
                       </tr>
                     </thead>
                     <tbody class="text-gray-500">
@@ -237,6 +239,12 @@ const Bookings = () => {
                                 <p>
                                 ₹{book.balance}
                                 </p>
+                              </td>
+                              <td className="border-b border-gray-200 bg-white px-5  text-sm">
+                              <Link to='/chat'> 
+                              <FontAwesomeIcon icon={faMessage} style={{color:"green", width:50, height:25}}/>
+
+                              </Link>
                               </td>
                         </tr>
                       ))}

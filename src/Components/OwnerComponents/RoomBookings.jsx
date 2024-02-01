@@ -146,7 +146,7 @@ RoomBookings = () => {
 
                         <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                           
-                             {book.status=="Cancelled" ?(
+                             {book.status == "Cancelled" ?(
                              <>
                                 <span class="rounded-full bg-gray-300 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer">
                                 Cancelled

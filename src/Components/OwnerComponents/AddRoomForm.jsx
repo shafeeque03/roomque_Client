@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Autocomplete } from "@react-google-maps/api";
 import useGoogleMapApi from '../customHook/useGoogleMapApi';
+import { getCategories } from '../../api/ownerApi';
 
 const AddRoomForm = () => {
   const { isLoaded } = useGoogleMapApi();
@@ -19,7 +20,7 @@ const AddRoomForm = () => {
   const [roomImage, setRoomImage] = useState([]);
   const { _id } = useSelector((state) => state.ownerReducer.owner);
   const ownerId = _id;
-
+  const [categories, setCategories] = useState([])
   const onSubmit = async () => {
     try {
       if(!location.trim()){
@@ -70,7 +71,7 @@ const AddRoomForm = () => {
     );
     if (isValid) {
       setRoomImageToBase(files);
-      setRoomImagesError(null); // Clear error if files are valid
+      setRoomImagesError(null);
     } else {
       setRoomImagesError(
         'Invalid file type. Please select valid image files.'
@@ -113,6 +114,17 @@ const AddRoomForm = () => {
     }
   }, [isLoaded]);
 
+  useEffect(()=>{
+    getCategories(10)
+    .then((res)=>{
+      setCategories(res?.data?.categories)
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
+  },[])
+  console.log(categories,"got categorie")
+
   return (
     <div className="flex justify-center items-center fade-ef min-h-screen bg-gray-100">
       <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 p-8 bg-white rounded-lg shadow-lg mt-3 mb-3">
@@ -120,8 +132,6 @@ const AddRoomForm = () => {
           Add Room Form
         </h1>
         <form onSubmit={handleSubmit}>
-          {/* Your form fields go here */}
-          {/* Example input field */}
           <div className="mb-4">
             <label
               htmlFor="roomName"
@@ -148,7 +158,7 @@ const AddRoomForm = () => {
               htmlFor="roomType"
               className="block text-sm font-medium text-gray-600"
             >
-              Room Type
+              Room Category
             </label>
             <select
               id="roomType"
@@ -159,8 +169,10 @@ const AddRoomForm = () => {
               className="mt-1 p-2 w-full border rounded-md"
             >
               <option value="" label="Select Room Type" />
-              <option value="hotel" label="Hotel" />
-              <option value="flat" label="Flat" />
+              {categories.map((cat)=>(
+
+              <option value={cat.name} label={cat.name} />
+              ))}
               {/* Add more options as needed */}
             </select>
             {touched.roomType && errors.roomType && (
@@ -186,7 +198,7 @@ const AddRoomForm = () => {
               <option value="" label="Select Room Type" />
               <option value="Normal" label="Normal" />
               <option value="Medium" label="Medium" />
-              <option value="Lexury" label="Lexury" />
+              <option value="Luxury" label="Luxury" />
               {/* Add more options as needed */}
             </select>
             {touched.roomType && errors.roomType && (

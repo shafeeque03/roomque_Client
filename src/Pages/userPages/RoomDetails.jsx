@@ -27,6 +27,7 @@ const RoomDetails = () => {
   const { roomId } = useParams();
   const [date, setDate] = useState(null);
   const today = new Date();
+  const [imgIndex, setImgIndex] = useState(0)
   const location = useLocation();
   const [roomDetails, setRoomDetails] = useState({});
   const [allReviews, setAllReviews] = useState([]);
@@ -131,15 +132,15 @@ const RoomDetails = () => {
                 style={{ height: 500, width: 700 }}
               >
                 <div class="mt-8 m-auto">
-                  {roomDetails[0].roomImages.map((img) => (
+                  {roomDetails[0].roomImages.map((img,index) => (
                     <div class="w-24 h-24 ms-2 mt-2">
-                      <img src={img} class="w-full h-full rounded-xl" alt="" />
+                      <img src={roomDetails[0].roomImages[index]} class="w-full h-full cursor-pointer rounded-xl" alt="" onClick={()=>setImgIndex(index)} />
                     </div>
                   ))}
                 </div>
                 <div class="w-3/4 h-full me-3">
                   <img
-                    src={roomDetails[0].roomImages[0]}
+                    src={roomDetails[0].roomImages[imgIndex]}
                     class="w-full h-full rounded-xl"
                     alt=""
                   />
@@ -158,12 +159,12 @@ const RoomDetails = () => {
                   </>
                 ) : (
                   <>
-                    <div class="flex items-center ms-2">
-                    <p class="ms-1 text-sm font-bold text-gray-900 dark:text-green-600">
+                    <div class="flex items-center w-14 flex justify-center py-1 bg-slate-400 rounded-xl ms-2">
+                    <p class="ms-1 me-1 mt- text-sm font-bold text-gray-900 dark:text-black">
                         {avgRating}
                       </p>
                       <svg
-                        class="w-4 h-4 text-green-600 me-1"
+                        class="w-4 h-4 text-yellow-500 me-1"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -214,12 +215,12 @@ const RoomDetails = () => {
                 </div>
 
                 <div class="m-auto text-center">
-                  <button
+                  {/* <button
                     type="button"
                     class="focus:outline-none w-full m-auto text-white m-auto bg-green-800 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg mt-2 text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-800 dark:hover:bg-green-700 dark:focus:ring-green-800"
                   >
                     <FontAwesomeIcon icon={faMessage} /> Chat with Owner
-                  </button>
+                  </button> */}
 
                   <>
                     {showDate ? (
@@ -234,12 +235,12 @@ const RoomDetails = () => {
                           type="date"
                           id="date"
                           name="date"
-                          class="mt-1 p-2 border mb-3 bg-blue-700 text-white rounded-md focus:outline-none focus:border-blue-500"
+                          class="mt-1 p-2 border mb-3 bg-green-700 text-white rounded-md focus:outline-none focus:border-blue-500"
                           value={date}
                           onChange={(e) => setDate(e.target.value)}
                         />
                         <button
-                          class="block m-auto w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                          class="block m-auto w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-700 dark:hover:bg-green-00 dark:focus:ring-blue-800"
                           type="button"
                           onClick={() =>
                             // booking(roomDetails[0]._id, roomDetails[0].ownerId)

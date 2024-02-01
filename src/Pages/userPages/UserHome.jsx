@@ -5,20 +5,26 @@ import { getRooms } from "../../api/userApi";
 import Pagination from "../../Components/common/Pagination";
 import { useSelector } from "react-redux";
 import DummyHome from "../../Components/UserComponents/DummyHome";
-import { searchLocation, filteredRooms } from "../../api/userApi"; // Import filteredRooms
+import { searchLocation, filteredRooms } from "../../api/userApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { getCategories } from "../../api/ownerApi";
 
 const UserHome = () => {
   const [rooms, setRooms] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [categories, setCategories] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
     roomModels: [],
     acTypes: [],
     categories: [],
+  });
+  const [rentFilter, setRentFilter] = useState({
+    min: "",
+    max: "",
   });
   const { user } = useSelector((state) => state.userReducer);
   const dataPerPage = 8;
@@ -61,11 +67,6 @@ const UserHome = () => {
     setCurrentPage(1);
   }, 100);
 
-  const [rentFilter, setRentFilter] = useState({
-    min: "",
-    max: "",
-  });
-  
   const handleRentChange = (type, value) => {
     setRentFilter((prevFilter) => ({
       ...prevFilter,
@@ -75,11 +76,9 @@ const UserHome = () => {
 
   const applyFilters = async () => {
     try {
-      console.log("hihi")
-      if(rentFilter.min > rentFilter.max){
-        toast.error("Select a valid range")
-      }else{
-
+      if (rentFilter.min > rentFilter.max) {
+        toast.error("Select a valid range");
+      } else {
         const res = await filteredRooms(selectedFilters, rentFilter);
         setRooms(res.data.filtered);
         setFilterDropdownOpen(false);
@@ -92,7 +91,7 @@ const UserHome = () => {
   const handleCheckboxChange = (filterType, value) => {
     setSelectedFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters };
-  
+
       if (updatedFilters[filterType].includes(value)) {
         updatedFilters[filterType] = updatedFilters[filterType].filter(
           (filter) => filter !== value
@@ -100,17 +99,31 @@ const UserHome = () => {
       } else {
         updatedFilters[filterType] = [...updatedFilters[filterType], value];
       }
-  
+
       return updatedFilters;
     });
   };
-  
 
   const removeFilter = (filterType, value) => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
-      [filterType]: prevFilters[filterType].filter((filter) => filter !== value),
+      [filterType]: prevFilters[filterType].filter(
+        (filter) => filter !== value
+      ),
     }));
+  };
+
+  const resetFilters = () => {
+    setSelectedFilters({
+      roomModels: [],
+      acTypes: [],
+      categories: [],
+    });
+    setRentFilter({
+      min: "",
+      max: "",
+    });
+    applyFilters();
   };
 
   const filteredData = rooms;
@@ -124,6 +137,16 @@ const UserHome = () => {
   const toggleFilterDropdown = () => {
     setFilterDropdownOpen(!filterDropdownOpen);
   };
+
+  useEffect(()=>{
+    getCategories(10)
+    .then((res)=>{
+      setCategories(res?.data?.categories)
+    })
+    .catch((err)=>{
+      console.log(err.message)
+    })
+  },[])
 
   return (
     <div>
@@ -167,15 +190,19 @@ const UserHome = () => {
                           <input
                             type="checkbox"
                             className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("roomModels", "Lexury")}
+                            onChange={() =>
+                              handleCheckboxChange("roomModels", "Luxury")
+                            }
                           />
-                          <span className="ml-2">Lexury</span>
+                          <span className="ml-2">Luxury</span>
                         </label>
                         <label className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
                           <input
                             type="checkbox"
                             className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("roomModels", "Medium")}
+                            onChange={() =>
+                              handleCheckboxChange("roomModels", "Medium")
+                            }
                           />
                           <span className="ml-2">Medium</span>
                         </label>
@@ -183,7 +210,9 @@ const UserHome = () => {
                           <input
                             type="checkbox"
                             className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("roomModels", "Normal")}
+                            onChange={() =>
+                              handleCheckboxChange("roomModels", "Normal")
+                            }
                           />
                           <span className="ml-2">Normal</span>
                         </label>
@@ -197,7 +226,9 @@ const UserHome = () => {
                           <input
                             type="checkbox"
                             className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("acTypes", "AC")}
+                            onChange={() =>
+                              handleCheckboxChange("acTypes", "AC")
+                            }
                           />
                           <span className="ml-2">Ac</span>
                         </label>
@@ -205,7 +236,9 @@ const UserHome = () => {
                           <input
                             type="checkbox"
                             className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("acTypes", "Non-AC")}
+                            onChange={() =>
+                              handleCheckboxChange("acTypes", "Non-AC")
+                            }
                           />
                           <span className="ml-2">Non-Ac</span>
                         </label>
@@ -215,47 +248,60 @@ const UserHome = () => {
                         <label className="flex items-center px-4 py-2  text-sm border-b-2 text-gray-700">
                           <span className="ml-2">Category</span>
                         </label>
-                        <label className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                          <input
-                            type="checkbox"
-                            className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("categories", "flat")}
-                          />
-                          <span className="ml-2">Flat</span>
-                        </label>
-                        <label className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                          <input
-                            type="checkbox"
-                            className="form-checkbox h-5 w-5 text-green-500"
-                            onChange={() => handleCheckboxChange("categories", "hotel")}
-                          />
-                          <span className="ml-2">Hotel</span>
-                        </label>
+                        {categories.map((cat) => (
+  <label className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" key={cat._id}>
+    <input
+      type="checkbox"
+      className="form-checkbox h-5 w-5 text-green-500"
+      onChange={() => handleCheckboxChange("categories", cat.name)}
+    />
+    <span className="ml-2">{cat.name}</span>
+  </label>
+))}
+
+
                       </div>
 
                       <div>
-          <label className="flex items-center px-4 py-2 text-sm border-b-2 text-gray-700">
-            <span className="ml-2">Rent Range</span>
-          </label>
-          <div className="flex items-center px-4 py-2 text-sm text-gray-700">
-            <input
-              type="text"
-              className="form-input h-8 w-16 mr-2 text-gray-800 border rounded"
-              placeholder="Min"
-              onChange={(e) => handleRentChange("min", e.target.value)}
-            />
-            <span className="mr-2">-</span>
-            <input
-              type="text"
-              className="form-input h-8 w-16 ml-2 text-gray-800 border rounded"
-              placeholder="Max"
-              onChange={(e) => handleRentChange("max", e.target.value)}
-            />
-          </div>
-        </div>
+                        <label className="flex items-center px-4 py-2 text-sm border-b-2 text-gray-700">
+                          <span className="ml-2">Rent Range</span>
+                        </label>
+                        <div className="flex items-center px-4 mt-3 py-2 text-sm text-gray-700">
+                          <input
+                            type="text"
+                            className="form-input h-8 w-16 mr-2 px-1 text-gray-800 border border-slate-400 rounded"
+                            placeholder="Min"
+                            value={rentFilter.min}
+                            onChange={(e) =>
+                              handleRentChange("min", e.target.value)
+                            }
+                          />
+                          <span className="mr-2">-</span>
+                          <input
+                            type="text"
+                            className="form-input h-8 w-16 ml-2 px-1 text-gray-800 border border-slate-400  rounded"
+                            placeholder="Max"
+                            value={rentFilter.max}
+                            onChange={(e) =>
+                              handleRentChange("max", e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
 
-                      <button className='bg-green-700 text-slate-50 w-full px-4 py-1 mb-4 mt-4 text-center m-auto rounded' onClick={applyFilters}>Apply</button>
-                      
+                      <button
+                        className="bg-green-700 text-slate-50 w-full px-4 py-1 mt-4 text-center m-auto rounded"
+                        onClick={applyFilters}
+                      >
+                        Apply
+                      </button>
+
+                      <button
+                        className="bg-gray-300 hover:bg-slate text-gray-700 w-full px-4 mb-3 py-1 mt-2 text-center m-auto rounded"
+                        onClick={resetFilters}
+                      >
+                        Reset Filters
+                      </button>
                     </div>
                   </div>
                 )}
@@ -281,7 +327,7 @@ const UserHome = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap pt-10 justify-evenly bg-green-50 min-h-screen scroll-smooth focus:scroll-auto">
+          <div className="flex flex-wrap pt-1 justify-evenly bg-green-50 min-h-screen scroll-smooth focus:scroll-auto">
             {usersInSinglePage.length > 0 ? (
               usersInSinglePage.map((data) => (
                 <RoomCard key={data._id} value={data} />

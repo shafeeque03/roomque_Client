@@ -12,6 +12,8 @@ import Fotp from "../Pages/ownerPages/Fotp";
 import NewPassword from "../Pages/ownerPages/NewPassword";
 import AllBookings from "../Pages/ownerPages/AllBookings";
 import OwnerProfilePage from "../Pages/ownerPages/OwnerProfilePage";
+import OwnerChatPage from "../Pages/ownerPages/OwnerChatPage";
+import OwnerDashboard from "../Pages/ownerPages/OwnerDashboard";
 
 const OwnerRoute = ()=>{
     return(
@@ -27,6 +29,9 @@ const OwnerRoute = ()=>{
             <Route path="/forgotPassword" element={<OwnerForgotPassword/>}/>
             <Route path="/fOtp" element={<OwnerPublic><Fotp/></OwnerPublic>}/>
             <Route path="/newPassword" element={<OwnerPublic><NewPassword/></OwnerPublic>}/>
+            <Route path="/newPassword" element={<OwnerPublic><NewPassword/></OwnerPublic>}/>
+            <Route path="/chat" element={<OwnerProtect><OwnerChatPage/></OwnerProtect>}/>
+            <Route path="/dashboard" element={<OwnerProtect><OwnerDashboard/></OwnerProtect>}/>
             
         </Routes>
     )

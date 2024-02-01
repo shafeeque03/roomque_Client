@@ -39,3 +39,13 @@ export const bookingList = async()=>{
   const data = await adminAxiosInstance.get("/bookings")
   return data
 }
+
+export const dashboardData = async()=>{
+  const data = await adminAxiosInstance.get("/dashData")
+  return data
+}
+
+export const addCategory = async(category)=>{
+  const data = await adminAxiosInstance.post("/addCategory",{category})
+  return data
+}
