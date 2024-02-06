@@ -164,7 +164,7 @@ const AdminDashboard = () => {
           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100">
           <div className="container mx-auto px-4 py-6">
             {/* Your Dashboard Content Goes Here */}
-            <div class="flex justify-between">
+            <div className="flex justify-between">
               <h1 className="text-2xl font-semibold mb-4 text-slate-700">
                 Admin Dashboard
               </h1>
@@ -213,7 +213,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Graph */}
-            <div class='flex flex-wrap justify-between ms-1 me-1'>
+            <div className='flex flex-wrap justify-between ms-1 me-1'>
             <div className="mt-8 w-2/5">
               <div className="bg-gradient-to-r from-green-300 to-yellow-200 p-6 rounded-lg shadow-md">
                 <p className="text-lg text-gray-700 font-semibold">
@@ -250,7 +250,7 @@ const AdminDashboard = () => {
             </h1>
             <input
               type="text"
-              class="w-full py-1 p-2 border-2 bg-slate-50 mb-5 rounded-lg"
+              className="w-full py-1 p-2 border-2 bg-slate-50 mb-5 rounded-lg"
               value={category}
               onChange={(e)=>setCategory(e.target.value)}
             />
