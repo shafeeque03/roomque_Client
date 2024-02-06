@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const baseURL = "https://roomque-server.onrender.com";
+const baseURL = "https://roomque-server.onrender.com/";
 const userBaseURL = baseURL;
 const ownerBaseURL = `${baseURL}owner`;
 const adminBaseURL = `${baseURL}admin`;
