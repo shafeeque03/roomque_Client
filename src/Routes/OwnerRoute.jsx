@@ -14,6 +14,7 @@ import AllBookings from "../Pages/ownerPages/AllBookings";
 import OwnerProfilePage from "../Pages/ownerPages/OwnerProfilePage";
 import OwnerChatPage from "../Pages/ownerPages/OwnerChatPage";
 import OwnerDashboard from "../Pages/ownerPages/OwnerDashboard";
+import PageNotFound from "../Components/error/PageNotFound";
 
 const OwnerRoute = ()=>{
     return(
@@ -32,6 +33,7 @@ const OwnerRoute = ()=>{
             <Route path="/newPassword" element={<OwnerPublic><NewPassword/></OwnerPublic>}/>
             <Route path="/chat" element={<OwnerProtect><OwnerChatPage/></OwnerProtect>}/>
             <Route path="/dashboard" element={<OwnerProtect><OwnerDashboard/></OwnerProtect>}/>
+            <Route path="*" element={<PageNotFound/>}/>
             
         </Routes>
     )

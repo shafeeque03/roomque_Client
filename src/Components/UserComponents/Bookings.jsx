@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { myBookings } from "../../api/userApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cancelBooking } from "../../api/userApi";
 import { toast } from "react-toastify";
+import { userLogin } from "../../Redux/slices/UserSlice";
 import { Rating } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faMessage } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +15,7 @@ import { Link } from "react-router-dom";
 
 const Bookings = () => {
   const { user } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch()
   const userId = user._id;
   const userName = user.name;
   const [loading, setLoading] = useState(true);
@@ -51,6 +53,13 @@ const Bookings = () => {
           });
           return updatedBooking;
         });
+        const { userData } = res.data;
+        console.log(userData,"data gottt userData")
+        dispatch(
+          userLogin({
+            user: userData,
+          })
+        );
       }
     } catch (error) {
       toast.error(error.response?.data?.message);

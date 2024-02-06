@@ -15,6 +15,8 @@ import UserProfile from "../Pages/userPages/UserProfile";
 import { MyBookings } from "../Pages/userPages/MyBookings";
 import PaymentSuccess from "../Pages/userPages/PaymentSuccess";
 import ChatPage from "../Pages/userPages/ChatPage";
+import Success from "../Pages/userPages/Success";
+import PageNotFound from "../Components/error/PageNotFound";
 
 const UserRoute = ()=>{
     return(
@@ -32,7 +34,9 @@ const UserRoute = ()=>{
             <Route path="/contact" element={<UserPublic><DummyHome/></UserPublic>}/>
             <Route path="/newPassword" element={<UserPublic><SetNewPassword/></UserPublic>}/>
             <Route path="/paymentSuccess/:roomId" element={<UserProtect><PaymentSuccess/></UserProtect>}/>
+            <Route path="/success" element={<UserProtect><Success/></UserProtect>}/>
             <Route path="/chat" element={<UserProtect><ChatPage/></UserProtect>}/>
+            <Route path="*" element={<PageNotFound/>}/>
 
 
 

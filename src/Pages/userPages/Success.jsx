@@ -1,18 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import UserNavbar from '../../Components/UserComponents/UserNavbar'
-import { Link, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { bookRoom } from '../../api/userApi'
+import { Link } from 'react-router-dom'
 
-const PaymentSuccess = () => {
-  const { user } = useSelector((state) => state.userReducer);
-  const userId = user._id
-  const {roomId} = useParams()
-  const date = new URLSearchParams(window.location.search).get('date');
-  // console.log(date, roomId,user._id,"kitititititititioooo")
-  useEffect(()=>{
-    bookRoom(roomId,userId, date )
-  },[])
+const Success = () => {
   return (
     <div>
       <UserNavbar/>
@@ -39,4 +29,4 @@ const PaymentSuccess = () => {
   )
 }
 
-export default PaymentSuccess
+export default Success

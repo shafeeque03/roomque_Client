@@ -5,6 +5,8 @@ import { editProfile } from "../../api/userApi";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../Redux/slices/UserSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faIdBadge,faVcard } from "@fortawesome/free-regular-svg-icons";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.userReducer);
@@ -21,7 +23,7 @@ const Profile = () => {
         setLoading(false)
         setIsEdit(false)
         const { user } = res.data;
-        console.log(user,"this is user")
+
         dispatch(
           userLogin({
             user: user,
@@ -73,7 +75,7 @@ const Profile = () => {
                       {user.email}
                     </p>
                     <p>
-                      <span></span>
+                      <span class='text-slate-700 text-md font-bold'>Wallet : ₹ {user.wallet}</span>
                     </p>
 
                     <div class="w-full">

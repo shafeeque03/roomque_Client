@@ -11,20 +11,18 @@ let socket;
 const Chat = () => {
   const { _id } = useSelector((state) => state.userReducer.user);
   const userId = _id;
-  // console.log(userId,"kokoo")
 
   const [conversations, setConversations] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  // console.log(messages,"ppppppppp");
+  const [unreadMessages, setUnreadMessages] = useState({});
 
   useEffect(() => {
     userChats(userId).then((res) => {
       setConversations(res?.data);
     });
   }, []);
-  // console.log(conversations, "ooooo")
 
   useEffect(() => {
     socket = io(END_POINT);
@@ -50,6 +48,12 @@ const Chat = () => {
 
       const updatedConversations = conversations.map((chat) => {
         if (chat._id === data.chatId) {
+          // Set unread message indicator to true for the chat
+          setUnreadMessages((prevUnread) => ({
+            ...prevUnread,
+            [chat._id]: true,
+          }));
+
           return { ...chat, lastMessage: Date.parse(data.createdAt) };
         }
         return chat;
@@ -71,6 +75,17 @@ const Chat = () => {
     return online ? true : false;
   };
 
+  const handleChatClick = (chat) => {
+    // Mark the chat as read when clicked
+    setUnreadMessages((prevUnread) => ({
+      ...prevUnread,
+      [chat._id]: false,
+    }));
+
+    setCurrentChat(chat);
+    socket?.emit("join room", chat._id);
+  };
+
   return (
     <div>
       <div className="pt-5">
@@ -81,23 +96,17 @@ const Chat = () => {
                 className="bg-gray-200 flex flex-col overflow-auto rounded-t-xl"
                 style={{ maxHeight: "85vh" }}
               >
-              
                 {/* <!-- end search compt -->
                  <!-- user list --> */}
                 <div className="pt-5">
                   <div className="cursor-pointer">
                     {conversations?.map((chat) => (
-                      <div
-                        key={chat._id}
-                        onClick={() => {
-                          setCurrentChat(chat);
-                          socket?.emit("join room", chat._id);
-                        }}
-                      >
+                      <div key={chat._id} onClick={() => handleChatClick(chat)}>
                         <ChatList
                           data={chat}
                           currentUserId={userId}
                           online={checkOnlineStatus(chat)}
+                          unreadMessages={unreadMessages[chat._id]}
                         />
                       </div>
                     ))}

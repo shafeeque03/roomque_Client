@@ -84,6 +84,7 @@ const UserNavbar = () => {
                         My Bookings
                       </Link>
                     </li>
+                   
                     <li>
                       <a
                         onClick={handleLogout}
@@ -92,6 +93,7 @@ const UserNavbar = () => {
                         Logout
                       </a>
                     </li>
+                    
                   </ul>
                 </div>
                ):( <div

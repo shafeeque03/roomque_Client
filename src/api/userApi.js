@@ -98,8 +98,12 @@ export const checkRoomAvailable = async(roomId, date)=>{
 }
 
 export const filteredRooms = async(selectedFilters,rentFilter)=>{
-    console.log("calling here apiiiii")
     const data = userAxiosInstance.post('/applyFilter',{selectedFilters,rentFilter})
+    return data
+}
+
+export const payByWallet = async(roomId,userId, date)=>{
+    const data = userAxiosInstance.post('/walletPay',{roomId,userId, date})
     return data
 }
 

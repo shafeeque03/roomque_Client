@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { addRemoveWishlist } from '../../api/userApi';
 
 const RoomCard = ({ value }) => {
@@ -22,7 +19,7 @@ const RoomCard = ({ value }) => {
   return (
     <div className="fade-ef">
       <Link to={`/roomDetails/${value._id}`}>
-        <div className="relative flex max-w-[18rem] max-h-[18rem] flex-col overflow-hidden rounded-xl bg-slate-100 bg-clip-border text-gray-700 shadow-md m-3 hover:-translate-y-1 hover:scale-110  cursor-pointer mb-7 duration-500">
+        <div className="relative flex max-w-[18rem] max-h-[18rem] hover:text-white flex-col overflow-hidden rounded-xl bg-slate-100 bg-clip-border text-gray-700 shadow-md m-3 hover:-translate-y-1 hover:scale-110 hover:bg-green-700  cursor-pointer mb-7 duration-500">
           <div className="relative m-0 overflow-hidden text-gray-700 bg-transparent rounded-none shadow-none bg-clip-border h-48">
             {/* Set a fixed height */}
             <img src={value.roomImages[0]} alt="ui/ux review check" />

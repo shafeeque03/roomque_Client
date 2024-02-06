@@ -19,10 +19,14 @@ import Spinner from "../../Components/common/Spinner";
 import { loadStripe } from "@stripe/stripe-js";
 import { paymentApi } from "../../api/userApi";
 import { checkRoomAvailable } from "../../api/userApi";
+import { payByWallet } from "../../api/userApi";
+import { useDispatch } from "react-redux";
+import { userLogin } from "../../Redux/slices/UserSlice";
 
 const RoomDetails = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch()
   const userId = user._id;
   const { roomId } = useParams();
   const [date, setDate] = useState(null);
@@ -58,7 +62,7 @@ const RoomDetails = () => {
     }
   };
 
-  const booking = async (roomId, ownerId) => {
+  const booking = async (roomId) => {
     try {
       if (date == null) {
         toast.error("Select a Date");
@@ -115,14 +119,52 @@ const RoomDetails = () => {
     }
   }
 
+  const payByWallettt = async()=>{
+    try {
+      if(date==null){
+        toast.error("Select a Date")
+      }else{
+        const selectedDate = new Date(date);
+        if(selectedDate<today){
+          toast.error("Select a valid date")
+        }else{
+          if(user.wallet <500){
+            toast.error("No enough money")
+          }else{
+            const ret = await checkRoomAvailable(roomId, date)
+          if(ret.status==200){
+            const res = await payByWallet(roomId, userId, date)
+            if(res.status==200){
+              const { user } = res.data;
+
+        dispatch(
+          userLogin({
+            user: user,
+          })
+        );
+              navigate('/success')
+            }
+          }
+          }
+
+          
+        }
+      }
+      
+    } catch (error) {
+      console.log(error.message)
+      toast.error(error.response?.data?.message);
+    }
+  }
+
   
   return (
     <div>
       <UserNavbar />
       {load ? (
-        <>
+        <div class='flex justify-center m-auto mt-12'>
           <Spinner />
-        </>
+        </div>
       ) : (
         <>
           <section class="overflow-hidden bg-slate-100 font-poppins fade-ef">
@@ -235,20 +277,29 @@ const RoomDetails = () => {
                           type="date"
                           id="date"
                           name="date"
-                          class="mt-1 p-2 border mb-3 bg-green-700 text-white rounded-md focus:outline-none focus:border-blue-500"
+                          class="mt-1 p-2 border mb-3 bg-green-50 text-black rounded-md focus:outline-none focus:border-white"
                           value={date}
                           onChange={(e) => setDate(e.target.value)}
                         />
+                        <div class='w-full m-auto'>
                         <button
-                          class="block m-auto w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-700 dark:hover:bg-green-00 dark:focus:ring-blue-800"
+                          class="block m-auto w-full mb-2 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-900"
+                          type="button"
+                          onClick={()=>payByWallettt()}
+                        >
+                          Pay by Wallet <br /> <p class='text-slate-200 flex justify-center' style={{fontSize:12}}> Balance : {user.wallet}</p>
+                        </button>
+                        <button
+                          class="block m-auto w-full text-white mb-2 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800"
                           type="button"
                           onClick={() =>
                             // booking(roomDetails[0]._id, roomDetails[0].ownerId)
                             makePayment()
                           }
                         >
-                          Conform
+                          Pay by Stripe <br /> <p class='text-slate-200 flex justify-center' style={{fontSize:12}}> 100% Safe</p>
                         </button>
+                        </div>
                       </>
                     ) : (
                       <>

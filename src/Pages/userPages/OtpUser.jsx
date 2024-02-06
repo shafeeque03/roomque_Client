@@ -109,7 +109,7 @@ const OtpUser = () => {
 
   return (
     <>
-      <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-white-50 py-12">
+      <div className="relative wrapper flex min-h-screen flex-col justify-center overflow-hidden bg-green-500 py-12">
       <h1 class="text-green-900 text-4xl items-center text-center m-5 font-semibold">roomque</h1>
           <div className="relative blr px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
             <div className="mx-auto flex w-full max-w-md flex-col space-y-16">

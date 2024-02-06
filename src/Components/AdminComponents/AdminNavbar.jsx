@@ -22,7 +22,7 @@ const AdminNavbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("adminToken")
     dispatch(adminLogout())
-    navigate("/admin/login")
+    navigate("/admin")
   }
   return (
     <>

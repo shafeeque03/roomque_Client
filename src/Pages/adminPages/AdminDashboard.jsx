@@ -8,61 +8,121 @@ import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const chartRef = useRef();
+  const secondChart = useRef()
   const [allOwners, setAllOwners] = useState(0);
   const [allUsers, setAllUsers] = useState(0);
   const [allRooms, setAllRooms] = useState(0);
   const [averagePerDay, setAveragePerDay] = useState(0);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [category, setCategory] = useState("");
+  const [lastFive, setLastFive] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [dashdata, setDashdata] = useState([])
 
-  useEffect(() => {
-    // Chart Data
-    const data = {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-      datasets: [
-        {
-          label: "Monthly Bookings",
-          data: [25, 75, 85, 75, 55, 45],
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 2,
-        },
-      ],
-    };
-
-    // Chart Options
-    const options = {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-    };
-
-    // Create the chart
-    const myChart = new Chart(chartRef.current, {
-      type: "line",
-      data: data,
-      options: options,
-    });
-
-    // Cleanup on component unmount
-    return () => {
-      myChart.destroy();
-    };
-  }, []);
   useEffect(() => {
     dashboardData()
       .then((res) => {
+        const ar = new Array(3);
         setAllOwners(res?.data?.ownerCount);
         setAllUsers(res?.data?.userCount);
         setAllRooms(res?.data?.roomCount);
         setAveragePerDay(res?.data?.averageBookingsPerDay);
+        setLastFive(res?.data?.dailyBookingCounts);
+        ar[0] = averagePerDay;
+        ar[1] = allRooms;
+        ar[2] = allUsers;
+        setDashdata(ar);
+        setLoading(false); // Set loading to false after data is fetched
       })
       .catch((err) => {
         console.log(err.message);
+        setLoading(false); // Set loading to false in case of error
       });
   }, []);
+  
+  useEffect(() => {
+    if (lastFive && lastFive.length > 0) {
+      // First Chart (Doughnut Chart)
+      const dayColors = [
+        "rgba(75, 192, 192, 0.5)",
+        "rgba(255, 78, 132, 0.5)",
+        "rgba(255, 89, 86, 0.5)",
+        "rgba(54, 162, 235, 0.5)",
+        "rgba(153, 102, 255, 0.5)",
+      ];
+      const data = {
+        labels: ["Day 5", "Day 4", "Day 3", "Day 2", "Day 1"],
+        datasets: [
+          {
+            label: "Bookings",
+            data: lastFive,
+            backgroundColor: dayColors,
+            borderColor: "rgba(255, 255, 255, 1)",
+            borderWidth: 2,
+          },
+        ],
+      };
+  
+      const options = {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      };
+  
+      const myChart = new Chart(chartRef.current, {
+        type: "doughnut",
+        data: data,
+        options: options,
+      });
+  
+      // Second Chart (Bar Chart)
+      const dayColorss = [
+        "rgba(55, 89, 86, 0.7)",
+        "rgba(54, 162, 65, 0.7)",
+        "rgba(153, 102, 255, 0.7)",
+      ];
+      const datas = {
+        labels: ["Avg Booking", "Total Rooms", "Total Users"],
+        datasets: [
+          {
+            label: "Bookings",
+            data: [
+              averagePerDay,
+              allRooms,
+              allUsers
+            ],
+            backgroundColor: dayColorss,
+            borderColor: "rgba(255, 255, 255, 1)",
+            borderWidth: 2,
+          },
+        ],
+      };
+  
+      const optionss = {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      };
+  
+      const myChartTwo = new Chart(secondChart.current, {
+        type: "bar",
+        data: datas,
+        options: optionss,
+      });
+  
+      return () => {
+        myChart.destroy();
+        myChartTwo.destroy();
+      };
+    }
+  }, [lastFive]);
+  
+  
+  
   const handleCloseCancelModal = () => {
     setShowCancelModal(false);
   };
@@ -81,6 +141,7 @@ const AdminDashboard = () => {
         }
       } catch (error) {
         console.error("Error adding category:", error);
+        toast.error(error.response?.data?.message);
       }
     }
   };
@@ -95,7 +156,12 @@ const AdminDashboard = () => {
         <AdminSidebar />
 
         {/* Main Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100">
+        {loading ? (<>
+          <h1>Loading...</h1>
+        </>
+          ):(
+          <>
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100">
           <div className="container mx-auto px-4 py-6">
             {/* Your Dashboard Content Goes Here */}
             <div class="flex justify-between">
@@ -147,17 +213,33 @@ const AdminDashboard = () => {
             </div>
 
             {/* Graph */}
-            <div className="mt-8">
+            <div class='flex flex-wrap justify-between ms-1 me-1'>
+            <div className="mt-8 w-2/5">
               <div className="bg-gradient-to-r from-green-300 to-yellow-200 p-6 rounded-lg shadow-md">
                 <p className="text-lg text-gray-700 font-semibold">
-                  Bookings Report
+                  Last 5 Days Bookings
                 </p>
                 {/* Chart Container */}
                 <canvas ref={chartRef}></canvas>
               </div>
             </div>
+            <div className="mt-8 w-1/2">
+              <div className="bg-gradient-to-r from-green-300 to-yellow-200 p-6 rounded-lg shadow-md">
+                <p className="text-lg text-gray-700 font-semibold">
+                  Report
+                </p>
+                {/* Chart Container */}
+                <canvas ref={secondChart}></canvas>
+              </div>
+            </div>
+            
+            </div>
+
           </div>
         </main>
+          </>
+          )}
+        
       </div>
       {showCancelModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
