@@ -14,11 +14,8 @@ const ChatBox = ({ chat, currentUser, setMessages,messages,socket }) => {
   const scroll = useRef();
 
   useEffect(() => {
-    // 👇️ scroll to bottom every time messages change
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  //fetching data for the header of the chat box
 
   useEffect(() => {
     const ownerId = chat?.members?.find((id) => id !== currentUser);
@@ -73,7 +70,6 @@ const ChatBox = ({ chat, currentUser, setMessages,messages,socket }) => {
     }
     
   };
-  console.log(messages,"from messagesiii");
 
  
   return (

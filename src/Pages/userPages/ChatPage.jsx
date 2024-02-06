@@ -1,5 +1,5 @@
 import React from 'react'
-import Chat from '../../components/userComponents/Chat/Chat'
+import Chat from '../../Components/UserComponents/Chat/ChatComponent'
 import UserNavbar from '../../Components/UserComponents/UserNavbar'
 
 const ChatPage = () => {
