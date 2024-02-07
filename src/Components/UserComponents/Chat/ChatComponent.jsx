@@ -6,7 +6,7 @@ import Chatbox from "./Chatbox";
 import { io } from "socket.io-client";
 import ChatList from "./ChatList";
 
-const END_POINT = "http://localhost:3001/";
+const END_POINT = "https://roomque-backend.onrender.com/";
 let socket;
 const Chat = () => {
   const { _id } = useSelector((state) => state.userReducer.user);
