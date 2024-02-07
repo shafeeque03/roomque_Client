@@ -14,7 +14,7 @@ import { getCategories } from "../../api/ownerApi";
 const UserHome = () => {
   const [rooms, setRooms] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState({
@@ -138,15 +138,15 @@ const UserHome = () => {
     setFilterDropdownOpen(!filterDropdownOpen);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCategories(10)
-    .then((res)=>{
-      setCategories(res?.data?.categories)
-    })
-    .catch((err)=>{
-      console.log(err.message)
-    })
-  },[])
+      .then((res) => {
+        setCategories(res?.data?.categories);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   return (
     <div>
@@ -154,11 +154,11 @@ const UserHome = () => {
         <>
           <UserNavbar />
           <div className="relative z-10">
-            <div className="flex justify-between bg-green-50 p-3">
-              <div>
+            <div className="flex flex-col md:flex-row bg-green-50 p-3">
+              <div className="md:w-1/2">
                 <button
                   id="dropdownCheckboxButton"
-                  className="text-white bg-green-700 hover:bg-green-800 ms-2 w-36   font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-700 dark:hover:bg-green-700"
+                  className="text-white bg-green-700 hover:bg-green-800 md:w-36 w-full font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-700 dark:hover:bg-green-700"
                   type="button"
                   onClick={toggleFilterDropdown}
                 >
@@ -249,17 +249,20 @@ const UserHome = () => {
                           <span className="ml-2">Category</span>
                         </label>
                         {categories.map((cat) => (
-  <label className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" key={cat._id}>
-    <input
-      type="checkbox"
-      className="form-checkbox h-5 w-5 text-green-500"
-      onChange={() => handleCheckboxChange("categories", cat.name)}
-    />
-    <span className="ml-2">{cat.name}</span>
-  </label>
-))}
-
-
+                          <label
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                            key={cat._id}
+                          >
+                            <input
+                              type="checkbox"
+                              className="form-checkbox h-5 w-5 text-green-500"
+                              onChange={() =>
+                                handleCheckboxChange("categories", cat.name)
+                              }
+                            />
+                            <span className="ml-2">{cat.name}</span>
+                          </label>
+                        ))}
                       </div>
 
                       <div>
@@ -306,23 +309,25 @@ const UserHome = () => {
                   </div>
                 )}
               </div>
-              <div className="w-full flex justify-end pe-8 h-full pt-2 bg-green-50">
-                <input
-                  type="search"
-                  id="voice-search"
-                  className="bg-slate-200 me-5 mt-2 top-0 right-0 red-300 text-gray-900 text-sm rounded-3xl  focus:red-500 block w-42 ps-5 p-2.5  dark:bg-gray-50 border-2 dark:red-600 dark:placeholder-gray-400 dark:text-slate-700 dark:focus:ring-red-500 dark:focus:red-500"
-                  placeholder="Search location"
-                  required
-                  value={searchInput}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                />
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  className="w-6 h-9 mt-3 cursor-pointer me-2"
-                  size="lg"
-                  onClick={searchRoom}
-                  style={{ color: "#087326" }}
-                />
+              <div className="md:w-1/2 mt-2 md:mt-0">
+                <div className="flex items-center">
+                  <input
+                    type="search"
+                    id="voice-search"
+                    className="bg-slate-200 me-2 md:me-5 mt-2 top-0 right-0 red-300 text-gray-900 text-sm rounded-3xl focus:red-500 block w-full md:w-42 ps-5 p-2.5 dark:bg-gray-50 border-2 dark:red-600 dark:placeholder-gray-400 dark:text-slate-700 dark:focus:ring-red-500 dark:focus:red-500"
+                    placeholder="Search location"
+                    required
+                    value={searchInput}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                  />
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className="w-6 h-9 mt-3 cursor-pointer me-2"
+                    size="lg"
+                    onClick={searchRoom}
+                    style={{ color: "#087326" }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -345,7 +350,7 @@ const UserHome = () => {
           </div>
 
           <div className="p-3 bg-green-50 m-auto text-center">
-            <div className="m-auto">
+            <div className="m-auto mb-5">
               {usersInSinglePage.length > 0 && (
                 <Pagination
                   numbers={numbers}

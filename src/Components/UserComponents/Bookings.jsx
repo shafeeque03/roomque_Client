@@ -147,7 +147,9 @@ const Bookings = () => {
           Note : Advance is non-refundable if cancelled after 2 days
         </p>
         {loading && ratings !== null ? (
+          <div className="flex justify-center m-auto mt-12">
           <Spinner />
+        </div>
         ) : (
           <>
             <div class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-8">

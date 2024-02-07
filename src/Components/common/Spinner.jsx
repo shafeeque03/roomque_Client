@@ -2,7 +2,7 @@ import React from 'react'
 
 const Spinner = () => {
   return (
-    <div class='m-auto'>
+    <div class='m-auto flex justify-center'>
         <div aria-label="Loading..." role="status" class="flex items-center space-x-2">
     <svg class="h-20 w-20 animate-spin stroke-green-700" viewBox="0 0 256 256">
         <line x1="128" y1="32" x2="128" y2="64" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"></line>

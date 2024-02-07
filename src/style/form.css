@@ -335,11 +335,11 @@
 .tailban h1 {
     text-align: center;
     margin-top: 1rem;
-    font-size: 5xl;
+    font-size: xl;
     font-weight: bold;
-    color: #f3f3f3;
+    color: #a7a7a793;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 90px;
+    font-size: 50px;
      /* Adjust the text color as needed */
 }
 

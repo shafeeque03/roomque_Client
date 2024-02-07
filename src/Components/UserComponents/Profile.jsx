@@ -53,7 +53,7 @@ const Profile = () => {
     <div>
       <div class="w-full min-h-screen bg-slate-50  p-7 fade-ef">
         <h2 class="text-center mb-5 text-3xl font-bold text-green-700">
-          USER PROFILE
+          PROFILE
         </h2>
         <div class="container mx-auto">
           <div>
@@ -74,8 +74,8 @@ const Profile = () => {
                     <p class="text-center text-sm text-gray-400 font-medium">
                       {user.email}
                     </p>
-                    <p>
-                      <span class='text-slate-700 text-md font-bold'>Wallet : ₹ {user.wallet}</span>
+                    <p className="text-center mt-5">
+                      <span class='text-slate-900 text-md font-bold text-center'>Wallet : ₹ {user.wallet}</span>
                     </p>
 
                     <div class="w-full">

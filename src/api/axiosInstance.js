@@ -1,10 +1,11 @@
 import axios from "axios";
 
 
-const baseURL = "https://roomque-backend.onrender.com";
+const baseURL = "http://localhost:3001/";
+// const baseURL = "https://roomque-backend.onrender.com";
 const userBaseURL = baseURL;
-const ownerBaseURL = `${baseURL}/owner`;
-const adminBaseURL = `${baseURL}/admin`;
+const ownerBaseURL = `${baseURL}owner`;
+const adminBaseURL = `${baseURL}admin`;
 
 const createAxiosInstance = (baseURL) => {
   const instance = axios.create({

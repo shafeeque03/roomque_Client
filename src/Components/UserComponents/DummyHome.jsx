@@ -30,22 +30,19 @@ const DummyHome = () => {
                 Rooms are available here according to your budget
               </h2>
             </div>
-            <div class=" bg-green-700 bnrs2">
+            <div class=" bg-green-700 bnrs2 mt-3">
               <h2 class="mt-3 ms-3 text-slate-50 text-xl mt-1 font-bold">
                 We provides verified and clean rooms
               </h2>
             </div>
-            <div class=" bg-green-700 bnrs3">
+            <div class=" bg-green-700 bnrs3 mt-3">
               <h2 class="mt-3 ms-3 text-slate-50 text-xl mt-1 font-bold">
                 Find available rooms in your location
               </h2>
             </div>
           </div>
-          <div class="tailban p-9 blr">
-            <h1 class="text-green-700 text-center mt-11 text-5xl font-bold ">
-              Rooms Starts @ 2000/m
-            </h1>
-            <p class="text-slate-50 text-center p-9 m-auto">
+          <div className="tailban p-4 md:p-9 blr">
+            <p className="text-slate-50 text-center p-4 md:p-9 m-auto">
               Welcome to our ROM booking website! We offer a seamless and
               personalized booking experience for a wide range of ROMs across
               various platforms. Our user-friendly interface allows you to
@@ -55,11 +52,13 @@ const DummyHome = () => {
               hassle-free ROM booking experience, only on our platform. Happy
               booking!
             </p>
-            <div class='m-auto'></div>
+            <h1>
+              Rooms Starts @ 999 Per Month
+            </h1>
           </div>
         </div>
       </div>
-      <OwnerFooter/>
+      <OwnerFooter />
     </div>
   );
 };
