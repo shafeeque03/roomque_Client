@@ -111,6 +111,7 @@ const AdminLogin = () => {
                 >
                   Login
                 </button>
+                <p className="text-slate-200 text-sm text-center"><Link to='/login'>User Login</Link></p>
               </form>
             </div>
           </div>

@@ -102,6 +102,16 @@ const UserLogin = () => {
                 Don't have an account? <Link to="/signup">Signup</Link>
               </span>
             </div>
+            <div class="register">
+              <span class='hover:underline text-slate-400 cursor-pointer'>
+                 <Link to="/owner/login">Owner Login</Link>
+              </span>
+            </div>
+            <div class="register">
+              <span class='hover:underline text-slate-400 cursor-pointer'>
+                 <Link to="/admin">Admin</Link>
+              </span>
+            </div>
           </form>
         </div>
       </div>

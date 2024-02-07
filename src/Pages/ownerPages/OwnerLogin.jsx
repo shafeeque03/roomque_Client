@@ -127,6 +127,12 @@ const OwnerLogin = () => {
                     <Link to="/owner/signup">Signup</Link>
                   </a>
                 </p>
+                <a
+                    
+                    class="text-sm text-slate-400 hover:underline dark:text-primary-500"
+                  >
+                    <Link to="/login">User Login</Link>
+                  </a>
               </form>
             </div>
           </div>
