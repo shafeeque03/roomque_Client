@@ -147,7 +147,7 @@ const RoomDetails = () => {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto">
       <UserNavbar />
       {load ? (
         <div className="flex justify-center m-auto mt-12">
