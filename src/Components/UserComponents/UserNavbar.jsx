@@ -27,8 +27,8 @@ const UserNavbar = () => {
   }
   return (
     <>
-    <nav className="bg-white  dark:bg-green-800">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+    <nav className="bg-green-800">
+      <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-3">
       <Link to='/' className="flex items-center">
         <div>
       <h1 class="text-white text-3xl flex">roomque </h1>
@@ -42,13 +42,13 @@ const UserNavbar = () => {
           <div className="relative ms-4" onClick={toggleDropdown}>
             <button
               type="button"
-              className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="flex mr-3 text-sm rounded-full md:mr-0"
               id="user-menu-button"
             >
               <span className="sr-only">Open user menu</span>
               <img
-                className="w-8 h-8 rounded-full object-contain"
-                src="/userLogo.png"
+                className="w-12 h-12 object-cover rounded-full"
+                src={user?.profilePhoto||"/userLogo.png"}
                 alt="user photo"
               />
             </button>

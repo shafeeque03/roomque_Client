@@ -1,7 +1,6 @@
 import { userAxiosInstance } from "./axiosInstance";
 
 export const userSignup = async(signupData) =>{
-    // console.log("heyy dataaa");
     const data = await userAxiosInstance.post("/signup", signupData)
     return data
 };
@@ -104,6 +103,11 @@ export const filteredRooms = async(selectedFilters,rentFilter)=>{
 
 export const payByWallet = async(roomId,userId, date)=>{
     const data = userAxiosInstance.post('/walletPay',{roomId,userId, date})
+    return data
+}
+
+export const uploadProfilePhoto = async(image, userId, lastImage)=>{
+    const data = userAxiosInstance.post('/profileChange',{image,userId, lastImage})
     return data
 }
 

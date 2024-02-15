@@ -4,17 +4,24 @@ import { bookingss } from "../../api/ownerApi";
 import { getRating } from "../../api/userApi";
 import { checkedIn } from "../../api/ownerApi";
 import { toast } from "react-toastify";
-const 
-RoomBookings = () => {
+import Pagination from "../common/Pagination";
+const RoomBookings = () => {
   const { owner } = useSelector((state) => state.ownerReducer);
   const ownerId = owner._id;
-  const now = new Date();
   const [loading, setLoading] = useState(true);
-  const [ratringss, setRatingss] = useState([])
-  const [booking, setBooking] = useState({});
-  const [modalShow, setModalShow] = useState(false)
+  const [ratringss, setRatingss] = useState([]);
+  const [booking, setBooking] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const dataPerPage = 6;
+  const filteredData = booking;
+  const lastIndex = currentPage * dataPerPage;
+  const firstIndex = lastIndex - dataPerPage;
+  const BookingsInSinglePage = filteredData.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(filteredData.length / dataPerPage);
+  const numbers = [...Array(totalPages + 1).keys()].slice(1);
   useEffect(() => {
-    console.log(ownerId, "this is ownerIdddd");
     bookingss(ownerId)
       .then((res) => {
         setBooking(res?.data?.booked);
@@ -26,26 +33,26 @@ RoomBookings = () => {
       });
   }, []);
 
-  const getAllRating = async(roomId)=>{
+  const getAllRating = async (roomId) => {
     try {
-      const res = await getRating(roomId)
-      if(res.status==200){
-        setRatingss(res?.data?.allRatings)
+      const res = await getRating(roomId);
+      if (res.status == 200) {
+        setRatingss(res?.data?.allRatings);
       }
-      setModalShow(true)
+      setModalShow(true);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
   const handleCloseModal = () => {
     setModalShow(false);
-    setRatingss([])
+    setRatingss([]);
   };
 
-  const setCheckedin = async(bookId)=>{
+  const setCheckedin = async (bookId) => {
     try {
-      const res = await checkedIn(bookId)
-      if(res.status==200){
+      const res = await checkedIn(bookId);
+      if (res.status == 200) {
         setBooking((preBookkings) => {
           return preBookkings.map((book) => {
             if (book._id === bookId) {
@@ -59,9 +66,9 @@ RoomBookings = () => {
         });
       }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [selectedBookingId, setSelectedBookingId] = useState(null);
@@ -107,131 +114,153 @@ RoomBookings = () => {
                     </tr>
                   </thead>
                   <tbody class="text-gray-500">
-                    {booking.map((book, index) => (
-                      <tr>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <p class="whitespace-no-wrap">{index + 1}</p>
-                        </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <div class="flex items-center">
-                            <div class="h-20 w-20 flex-shrink-0">
-                              <img
-                                class="h-full w-full rounded"
-                                src={book.room.image}
-                                alt=""
-                              />
+                    {BookingsInSinglePage.length > 0 ? (
+                      BookingsInSinglePage.map((book, index) => (
+                        <tr>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">{index + 1}</p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <div class="flex items-center">
+                              <div class="h-20 w-20 flex-shrink-0">
+                                <img
+                                  class="h-full w-full rounded"
+                                  src={book.room.image}
+                                  alt=""
+                                />
+                              </div>
+                              <div class="ml-3">
+                                <p class="whitespace-no-wrap">
+                                  {book.room.roomName}
+                                </p>
+                              </div>
                             </div>
-                            <div class="ml-3">
-                              <p class="whitespace-no-wrap">
-                                {book.room.roomName}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <p class="whitespace-no-wrap">{book.userName}</p>
-                        </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <p class="whitespace-no-wrap">
-                            {new Date(book.date).toLocaleDateString("en-GB")}
-                          </p>
-                        </td>
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          <p class="whitespace-no-wrap">
-                            {new Date(book.BookedFor).toLocaleDateString(
-                              "en-GB"
-                            )}
-                          </p>
-                        </td>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">{book.userName}</p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">
+                              {new Date(book.date).toLocaleDateString("en-GB")}
+                            </p>
+                          </td>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            <p class="whitespace-no-wrap">
+                              {new Date(book.BookedFor).toLocaleDateString(
+                                "en-GB"
+                              )}
+                            </p>
+                          </td>
 
-                        <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                          
-                             {book.status == "Cancelled" ?(
-                             <>
+                          <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                            {book.status == "Cancelled" ? (
+                              <>
                                 <span class="rounded-full bg-gray-300 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer">
-                                Cancelled
-                              </span>
-                             </>
-                             ):(
-                             <>
-                             {book.checkedIn ? (
-                             <>
-                              <span
-                                className="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer"
-                              >
-                                Checked
-                              </span>
-                             </>
-                             ):(
-                             <>
-                              <span
-                                className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer"
-                                onClick={() => handleOpenConfirmationModal(book._id)}
-                              >
-                                Check-In
-                              </span>
-                             </>
-                             )}
-                             
-                             </>
-                             )}
-                            
-                           
-                        </td>
-                        <td className="border-b border-gray-200 bg-white px-1 py-5 text-sm">
-                          <p
-                            className="whitespace-no-wrap cursor-pointer hover:text-slate-900"
-                            onClick={()=>getAllRating(book.roomId)}
-                          >
-                            Rate & Review
-                          </p>
+                                  Cancelled
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {book.checkedIn ? (
+                                  <>
+                                    <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer">
+                                      Checked
+                                    </span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <span
+                                      className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900 cursor-pointer"
+                                      onClick={() =>
+                                        handleOpenConfirmationModal(book._id)
+                                      }
+                                    >
+                                      Check-In
+                                    </span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                          </td>
+                          <td className="border-b border-gray-200 bg-white px-1 py-5 text-sm">
+                            <p
+                              className="whitespace-no-wrap cursor-pointer hover:text-slate-900"
+                              onClick={() => getAllRating(book.roomId)}
+                            >
+                              Rate & Review
+                            </p>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan="4"
+                          className="px-6 py-4 text-center text-gray-500"
+                        >
+                          No Bookings
                         </td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div className="m-auto flex justify-center mb-5">
+              {BookingsInSinglePage.length > 0 && (
+                <Pagination
+                  numbers={numbers}
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  totalPages={totalPages}
+                />
+              )}
             </div>
           </div>
         )}
       </div>
       {modalShow && (
-  <div className="fixed inset-0 flex items-center justify-center z-50">
-    <div className="absolute inset-0 bg-black opacity-50"></div>
-    <div className="bg-white p-8 rounded-lg z-10 w-full max-w-3xl overflow-y-auto max-h-96">
-      <div class='flex justify-between'>
-      <h1 className="text-2xl font-bold mb-4 text-green-800">
-        Ratings & Reviews
-      </h1>
-      <button
-        type="button"
-        className="bg-red-500 text-white  px-5 rounded"
-        onClick={handleCloseModal}
-      >
-        X
-      </button>
-      
-      </div>
-
-      {/* Display all ratings */}
-      {ratringss.length > 0 && (
-        <div className="mt-4">
-          {ratringss.map((rating, index) => (
-            <div key={index} className={`mb-4 ${index < ratringss.length - 1 ? 'border-b-2' : ''}`}>
-              <p className="text-slate-500 text-sm mb-1">Rating: {rating.rating}</p>
-              <p className="text-slate-500 text-sm mb-1">Review: {rating.review}</p>
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+          <div className="bg-white p-8 rounded-lg z-10 w-full max-w-3xl overflow-y-auto max-h-96">
+            <div class="flex justify-between">
+              <h1 className="text-2xl font-bold mb-4 text-green-800">
+                Ratings & Reviews
+              </h1>
+              <button
+                type="button"
+                className="bg-red-500 text-white  px-5 rounded"
+                onClick={handleCloseModal}
+              >
+                X
+              </button>
             </div>
-          ))}
+
+            {/* Display all ratings */}
+            {ratringss.length > 0 && (
+              <div className="mt-4">
+                {ratringss.map((rating, index) => (
+                  <div
+                    key={index}
+                    className={`mb-4 ${
+                      index < ratringss.length - 1 ? "border-b-2" : ""
+                    }`}
+                  >
+                    <p className="text-slate-500 text-sm mb-1">
+                      Rating: {rating.rating}
+                    </p>
+                    <p className="text-slate-500 text-sm mb-1">
+                      Review: {rating.review}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-
-    </div>
-  </div>
-)}
-
-
-{confirmationModal && (
+      {confirmationModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-black opacity-50"></div>
           <div className="bg-white p-8 rounded-lg z-10 w-full max-w-md">
@@ -258,7 +287,6 @@ RoomBookings = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

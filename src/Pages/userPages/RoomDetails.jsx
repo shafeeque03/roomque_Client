@@ -17,6 +17,7 @@ import { checkRoomAvailable } from "../../api/userApi";
 import { payByWallet } from "../../api/userApi";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../Redux/slices/UserSlice";
+import { toast } from "react-toastify";
 
 const RoomDetails = () => {
   const navigate = useNavigate();

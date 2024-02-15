@@ -153,8 +153,8 @@ const UserHome = () => {
       {user ? (
         <>
           <UserNavbar />
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row bg-green-50 p-3">
+          <div className="relative z-10 container m-auto">
+            <div className="flex flex-col md:flex-row bg-white p-3">
               <div className="md:w-1/2">
                 <button
                   id="dropdownCheckboxButton"
@@ -332,7 +332,7 @@ const UserHome = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap pt-1 justify-evenly bg-green-50 min-h-screen scroll-smooth focus:scroll-auto">
+          <div className="flex flex-wrap pt-1 justify-evenly bg-white min-h-screen scroll-smooth focus:scroll-auto container m-auto">
             {usersInSinglePage.length > 0 ? (
               usersInSinglePage.map((data) => (
                 <RoomCard key={data._id} value={data} />

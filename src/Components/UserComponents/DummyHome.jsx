@@ -8,7 +8,7 @@ const DummyHome = () => {
     <div>
       <UserNavbar />
 
-      <div class="bg-green-100 p-6">
+      <div class="bg-green-100 p-6 fade-ef">
         <div class="w-full min-h-screen m-auto">
           <div class=" w-3/4 h-80 m-auto relative bnr ">
             <p class="absolute top-3 right-5 text-slate-50 ">
