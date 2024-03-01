@@ -6,7 +6,6 @@ import OwnerListPage from "../Pages/adminPages/OwnerListPage";
 import RoomListPage from "../Pages/adminPages/RoomListPage";
 import BookingListPage from "../Pages/adminPages/BookingListPage";
 import PageNotFound from "../Components/error/PageNotFound";
-
 const AdminRoute = ()=>{
     return(
         <Routes>

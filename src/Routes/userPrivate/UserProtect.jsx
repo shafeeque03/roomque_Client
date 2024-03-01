@@ -3,7 +3,6 @@ import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../Redux/slices/UserSlice"; 
-userLogout;
 function UserProtect(props) {
   const dispatch = useDispatch();
   try {
