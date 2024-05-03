@@ -23,7 +23,7 @@ const PageNotFound = () => {
       case "owner":
         return "/owner";
       case "admin":
-        return "/admin/dashboard";
+        return "/admin";
       default:
         return "/";
     }
