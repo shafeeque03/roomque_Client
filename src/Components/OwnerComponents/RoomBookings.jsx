@@ -5,6 +5,7 @@ import { getRating } from "../../api/userApi";
 import { checkedIn } from "../../api/ownerApi";
 import { toast } from "react-toastify";
 import Pagination from "../common/Pagination";
+import Spinner from "../common/Spinner";
 const RoomBookings = () => {
   const { owner } = useSelector((state) => state.ownerReducer);
   const ownerId = owner._id;
@@ -96,7 +97,7 @@ const RoomBookings = () => {
       <div class="w-full min-h-screen mx-auto fade-ef p-2 bg-slate-100">
         <p class=" ms-4 mb-4 mt-4 text-xl text-slate-500">All Bookings</p>
         {loading ? (
-          <p>Loading</p>
+          <><Spinner/></>
         ) : (
           <div class="mx-auto max-w-screen-2xl px-4 py-8 sm:px-8">
             <div class="overflow-y-hidden rounded-lg border">
