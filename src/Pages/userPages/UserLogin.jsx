@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import 'react-toastify/dist/React-toastify.css'
 import { loginSchema } from "../../Validations/user/loginValidation";
 import { loginVerifcation } from "../../api/userApi";
 import { useDispatch } from "react-redux";
@@ -36,11 +35,19 @@ const UserLogin = () => {
           })
         );
         navigate("/");
+      }else if(res?.status==201){
+        const { userData, otpId } = res.data;
+        navigate("/otp", {
+          state: {
+            userEmail: userData.email,
+            otpId: otpId,
+            userId: userData._id,
+          },
+        });
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log("hi from error");
       toast.error(error.response?.data?.message || "An error occured");
       console.log(error.response?.data?.message, "response in error");
     }

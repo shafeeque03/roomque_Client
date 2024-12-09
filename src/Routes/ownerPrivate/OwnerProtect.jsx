@@ -11,7 +11,6 @@ const OwnerProtect = (props) => {
       const decodedToken = jwt_decode(token);
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp > currentTime) {
-        // eslint-disable-next-line react/prop-types
         return props.children;
       } else {
         localStorage.removeItem("ownerToken")

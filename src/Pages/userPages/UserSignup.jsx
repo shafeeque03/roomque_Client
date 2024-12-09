@@ -22,7 +22,6 @@ const UserSignup = () => {
       // e.preventDefault()
       // console.log(values, "hiiiii");
       const res = await userSignup(values);
-      console.log(res.status, "this is reponseee");
       if (res?.status === 201) {
         const { userData, otpId } = res.data;
         navigate("/otp", {
@@ -32,10 +31,7 @@ const UserSignup = () => {
             userId: userData._id,
           },
         });
-        // const { user } = res.data;
-        // toast(res.data.message);
       }
-      // console.log("user signup");
     } catch (error) {
       toast.error(error.response?.data?.message);
       console.log(error);

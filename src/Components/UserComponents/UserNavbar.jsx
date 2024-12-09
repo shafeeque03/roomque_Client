@@ -2,11 +2,7 @@ import React from 'react'
 import  { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { userLogout } from '../../Redux/slices/UserSlice'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
-
 const UserNavbar = () => {
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
