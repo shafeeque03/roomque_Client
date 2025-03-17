@@ -19,7 +19,7 @@
     align-items: center;
     min-height: 100vh;
     /* background-color: rgba(0, 0, 0, 0.2); */
-    background-image: url("/bgw.jpg");
+    background-color: green;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
